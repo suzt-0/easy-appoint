@@ -13,8 +13,8 @@ return new class extends Migration {
         Schema::create('practitioner_qualifications', function (Blueprint $table) {
             $table->id();
             $table->foreignId('practitioner_id')->constrained('practitioners')->onDelete('cascade');
-            $table->string('code');
-            $table->string('issuer')->nullable();
+            $table->string('code'); //MBBS, MD, etc 
+            $table->string('issuer')->nullable(); //organization -> educational education 
             $table->date('period_start')->nullable();
             $table->date('period_end')->nullable();
             $table->timestamps();

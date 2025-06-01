@@ -11,13 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('appointments', function (Blueprint $table) {
+        Schema::create('appointment_notes', function (Blueprint $table) {
             $table->id();
-            $table->enum('status', ['proposed', 'pending', 'booked', 'arrived', 'fulfilled', 'cancelled', 'noshow']);
-            $table->timestamp('start')->nullable();
-            $table->timestamp('end')->nullable();
-            $table->text('description')->nullable();
+            $table->foreignId('appointment_id')->constrained()->onDelete('cascade');
+            $table->text('text');
             $table->timestamps();
+
+            //WHY???
+            // $table->index(['author_type', 'author_id']);
         });
     }
 
@@ -26,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('appointments');
+        Schema::dropIfExists('appointment_notes');
     }
 };

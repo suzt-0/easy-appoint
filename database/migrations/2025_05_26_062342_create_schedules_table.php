@@ -13,6 +13,13 @@ return new class extends Migration
     {
         Schema::create('schedules', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('practitioner_id')->constrained('practitioners')->onDelete('cascade');
+            $table->string('service_category')->nullable(); // E.g., general, specialist
+            $table->string('service_type')->nullable();     // E.g., consultation, check-up
+            $table->string('specialty')->nullable();         // E.g., cardiology, dermatology
+            $table->boolean('active')->default(true);
+            $table->date('start_date');
+            $table->date('end_date');
             $table->timestamps();
         });
     }

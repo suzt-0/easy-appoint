@@ -13,6 +13,14 @@ return new class extends Migration
     {
         Schema::create('notifications', function (Blueprint $table) {
             $table->id();
+            $table->string('recipient_type'); // 'patient' or 'practitioner'
+            $table->unsignedBigInteger('recipient_id');
+            $table->string('type'); // e.g., 'appointment_reminder'
+            $table->text('message');
+            $table->string('delivery_method')->default('in_app'); // 'email', 'sms', etc.
+            $table->string('status')->default('pending'); // 'pending', 'sent', 'failed', 'read'
+            $table->dateTime('scheduled_at')->nullable();
+            $table->dateTime('sent_at')->nullable();
             $table->timestamps();
         });
     }

@@ -13,8 +13,8 @@ return new class extends Migration {
         Schema::create('practitioner_telecoms', function (Blueprint $table) {
             $table->id();
             $table->foreignId('practitioner_id')->constrained('practitioners')->onDelete('cascade');
-            $table->enum('system', ['phone', 'email', 'fax', 'pager', 'url', 'sms', 'other']);
-            $table->string('value');
+            $table->enum('system', ['phone', 'email', 'fax', 'pager', 'url', 'sms', 'other']); //type of contact
+            $table->string('value'); //value of contact, like phone no. 9849123456, or email : hello@example.ccom
             $table->enum('use', ['home', 'work', 'temp', 'old', 'mobile'])->nullable();
             $table->timestamps();
         });
