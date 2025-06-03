@@ -12,8 +12,9 @@ return new class extends Migration {
     {
         Schema::create('practitioners', function (Blueprint $table) {
             $table->id();
-            $table->string('family_name');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('given_name');
+            $table->string('family_name');
             $table->enum('gender', ['male', 'female', 'other', 'unknown'])->nullable();
             $table->date('birth_date')->nullable();
             $table->boolean('active')->default(true);

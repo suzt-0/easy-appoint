@@ -18,8 +18,9 @@ return new class extends Migration
             $table->string('service_type')->nullable();     // E.g., consultation, check-up
             $table->string('specialty')->nullable();         // E.g., cardiology, dermatology
             $table->boolean('active')->default(true);
-            $table->date('start_date');
-            $table->date('end_date');
+            $table->string('day_of_week');
+            $table->time('start_time');
+            $table->time('end_time');
             $table->timestamps();
         });
     }
