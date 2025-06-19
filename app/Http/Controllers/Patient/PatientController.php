@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Patient;
 
+use App\Http\Controllers\Controller;
 use App\Models\Patient;
 use Illuminate\Http\Request;
 
@@ -10,9 +11,13 @@ class PatientController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index() 
     {
-        //
+        return inertia('Patient/Index'
+        // [
+        //     'patients' => Patient::all()
+        // ]
+    );
     }
 
     /**
@@ -20,7 +25,7 @@ class PatientController extends Controller
      */
     public function create()
     {
-        //
+        return inertia('Patient/Create');
     }
 
     /**
@@ -36,7 +41,9 @@ class PatientController extends Controller
      */
     public function show(Patient $patient)
     {
-        //
+        return inertia('Patient/Show', [
+            'patient' => $patient
+        ]);
     }
 
     /**
