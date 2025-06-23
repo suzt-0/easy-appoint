@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\UserAccountController;
+use App\Http\Controllers\Practitioner\PractitionerController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\Patient\PatientController;
@@ -19,29 +20,52 @@ Route::get('/', function () {
 
 //all
 Route::middleware(['auth', 'verified'])->group(function () {
+    //for basic dashboard 
     Route::get('dashboard', function () {
         return Inertia::render('dashboard');
     })->name('dashboard');
+    
+    Route::get('dashboard/practitioner/manage', function () {
+        return Inertia::render('Admin/practitionerDashboard');
+    })->name('dashboard.managePractitioner');
+
 });
 
+//---------------------------------------------------------------------------------------------------------------------------------//
+
+
 //admin routes
-    // Route::middleware(['auth', 'verified', 'can:create-users'])->group(function () {
-        Route::get('/admin/user/create', [UserAccountController::class, 'create'])->name('users.create');
-        Route::post('/admin/user/store', [UserAccountController::class, 'store'])->name('users.store');
-        Route::get('/admin/users', [UserAccountController::class, 'index'])->name('users.index');
-        Route::get('/admin/user/{user}', [UserAccountController::class, 'show'])->name('users.show');   
-    // });
-    // manage patient and other user details
+    //admin routes specific routes
+        Route::get('/admin/user/create', [UserAccountController::class, 'create'])->name('user.create');
+        Route::post('/admin/user/store', [UserAccountController::class, 'store'])->name('user.store');
+        Route::get('/admin/users', [UserAccountController::class, 'index'])->name('user.index');
+        Route::get('/admin/user/{user}', [UserAccountController::class, 'show'])->name('user.show');  
+        Route::get('/admin/user/{user}/edit', [UserAccountController::class, 'edit'])->name('user.edit');
+        Route::put('/admin/user/{user}/update', [UserAccountController::class, 'update'])->name('user.update');
+        Route::delete('/admin/user/{user}/delete', [UserAccountController::class, 'destroy'])->name('user.destroy');
+        Route::get('/admin/users/doctors',[UserAccountController::class,'doctors'])->name('doctor.index');
+ 
+
+//---------------------------------------------------------------------------------------------------------------------------------//
+
 
 //practitioner routes 
-    //add schedules and time slots 
-    //see appointments
+    //add practitioner
 
-//receptionist routes
-    //manage appointments
+    //admin limited routes
+        Route::get('/admin/practitioner/{user}/create', [PractitionerController::class, 'create'])->name('practitioner.create');
+        Route::post('/admin/practitioner/store', [PractitionerController::class, 'store'])->name('practitioner.store');
+        Route::get('/admin/practitioners', [PractitionerController::class, 'index'])->name('practitioner.index');
+        Route::delete('/admin/practitioner/{practitioner}/delete',[PractitionerController::class, 'destroy'])->name('practitioner.destroy');
+
+    // routes accessible by both admin and practitioner
+        Route::get('/practitioner/{practitioner}', [PractitionerController::class, 'show'])->name('practitioner.show');
+        Route::get('/practitioner/{practitioner}/edit', [PractitionerController::class, 'edit'])->name('practitioner.edit');
+        Route::put('/practitioner/{practitioner}/update', [PractitionerController::class, 'update'])->name('practitioner.update');
 
 
-//--------------------------------------------------------------------------------------------------------------//
+
+//------------------------------------------------------------------------------------------------------------------------------------------------//
 // appointment booking routes
 
 Route::get('/visit-type', function (){
@@ -73,7 +97,7 @@ Route::get('/select-department', function (){
     //UI test route
     
     Route::get('/test', function (){
-    return Inertia::render(component: 'Admin/test'); //add component here 
+    return Inertia::render(component: 'Practitioner/createPractitioner'); //add component here 
     })->name('test');
 
 
