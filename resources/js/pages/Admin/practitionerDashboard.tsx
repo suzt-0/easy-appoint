@@ -44,16 +44,16 @@ export default function Dashboard() {
 function AdminCard() {
     const adminDashboardCards: DashboardCard[] = [
         {
-            title: 'Add Users',
-            description: 'Add User Account',
-            content: 'No. of users: 5',
-            href: '/admin/user/create',  
+            title: 'Add Practitioner',
+            description: 'Add a new Practitioner',
+            content: 'No. of Practitioner: 5',
+            href: '/admin/users/doctors',  
         },
         {
-            title: 'List Users',
-            description: 'List all User Accounts',
+            title: 'List Practitioners',
+            description: 'List all Practitioners',
             content: 'No. of users: 5',
-            href: '/admin/users',  
+            href: '/admin/practitioners',  
         },
         // Add more cards as needed
     ];
