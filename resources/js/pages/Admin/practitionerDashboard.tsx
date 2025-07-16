@@ -7,9 +7,10 @@ import { Link } from 'lucide-react';
 
 
 const breadcrumbs: BreadcrumbItem[] = [
+
     {
-        title: 'Dashboard',
-        href: '/dashboard',
+        title: 'Practitioner Management',
+        href: '/dashboard/practitioner/manage',
     },
 
 ];

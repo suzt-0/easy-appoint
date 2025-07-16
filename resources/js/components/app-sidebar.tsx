@@ -7,13 +7,7 @@ import { Link, usePage } from '@inertiajs/react';
 import { Bell, BookOpen, Clock1, Clock10, File, FileClock, Folder, LayoutGrid } from 'lucide-react';
 import AppLogo from './app-logo';
 
-const mainNavItems: NavItem[] = [
-    {
-        title: 'Dashboard',
-        href: '/dashboard',
-        icon: LayoutGrid,
-    },
-];
+
 
 //admin nav items
 const adminNavItems: NavItem[] = [
@@ -24,13 +18,8 @@ const adminNavItems: NavItem[] = [
     },
     {
         title: 'User Management',
-        href: '/admin/user',
+        href: '/dashboard/user/manage',
         icon: BookOpen,
-    },
-    {
-        title: 'Appointment Management',
-        href: '/admin/appointment',
-        icon: FileClock,
     },
     {
         title: 'Practitioner Management',
@@ -38,11 +27,71 @@ const adminNavItems: NavItem[] = [
         icon: FileClock,
     },
     {
-        title: 'Reports',
-        href: '/admin/reports',
-        icon: File,
+        title: 'Schedule Management',
+        href: '#',
+        icon: FileClock,
+    },
+    {
+        title: 'Appointment Management',
+        href: '/admin/appointment',
+        icon: FileClock,
+    },
+    {
+        title: 'Patient Management',
+        href: '/dashboard/patient/manage',
+        icon: FileClock,
     }
 ];
+
+//practitioner nav items
+const practitionerNavItems: NavItem[] = [
+    {
+        title: 'Dashboard',
+        href: '/dashboard',
+        icon: LayoutGrid,
+    },
+    {
+        title: 'Schedule Management',
+        href: '#',
+        icon: FileClock,
+    },
+    {
+        title: 'Appointment Management',
+        href: '/practitioner/appointment',
+        icon: FileClock,
+    },
+];
+
+//frontdesk nav items
+const frontDeskNavItems: NavItem[] = [
+    {
+        title: 'Dashboard',
+        href: '/dashboard',
+        icon: LayoutGrid,
+    },
+    {
+        title: 'Appointment Management',
+        href: '/admin/appointment',
+        icon: FileClock,
+    },
+    // {
+    //     title: 'Reports',
+    //     href: '/admin/reports',
+    //     icon: File,
+    // }
+];
+
+
+//guest nav items
+const guestNavItems: NavItem[] = [
+    {
+        title: 'Dashboard',
+        href: '/dashboard',
+        icon: LayoutGrid,
+    },
+
+];
+
 
 const footerNavItems: NavItem[] = [
     {
@@ -72,11 +121,11 @@ export function AppSidebar() {
                 <NavMain items={
                     (auth.user.role === 'admin') ?
                         adminNavItems :
-                        (auth.user.role === 'practitioner') ?
-                            mainNavItems :
+                        (auth.user.role === 'doctor') ?
+                            practitionerNavItems :
                             (auth.user.role === 'frontdesk') ?
-                                mainNavItems :
-                                mainNavItems
+                                frontDeskNavItems :
+                                guestNavItems
                 } />
             </SidebarContent>
 

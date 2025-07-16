@@ -34,7 +34,9 @@ export default function Users() {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Dashboard" />
-            <Card>
+            <Card
+            className='m-3'
+            >
                 <CardHeader>
                     <CardTitle>Users</CardTitle>
                     <CardDescription>List of all users</CardDescription>

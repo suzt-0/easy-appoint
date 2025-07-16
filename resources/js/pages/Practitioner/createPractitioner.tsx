@@ -10,9 +10,13 @@ import { LoaderCircle } from 'lucide-react';
 import { BreadcrumbItem, SharedData } from '@/types';
 
 const breadcrumbs: BreadcrumbItem[] = [
+     {
+        title: 'Practitioner Management',
+        href: '/dashboard/practitioner/manage',
+    },
     {
-        title: 'Dashboard',
-        href: '/dashboard',
+        title: 'Add Practitioner',
+        href: '/admin/users/doctors'
     },
     {
         title: 'Add Practitioner details',
@@ -50,7 +54,7 @@ type UserData = {
 
 export default function CreatePractitioner() {
 
-        const { user } = usePage<{ user: UserData[] }>().props;
+        const { user } = usePage<{ user: UserData }>().props;
 
     const { data, setData, post, processing, errors, reset } = useForm<PractitionerData>({
         user_id: user.id,

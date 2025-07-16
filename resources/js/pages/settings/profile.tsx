@@ -22,6 +22,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 type ProfileForm = {
     name: string;
     email: string;
+    role: string;
 }
 
 export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: boolean; status?: string }) {
@@ -30,6 +31,7 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
     const { data, setData, patch, errors, processing, recentlySuccessful } = useForm<Required<ProfileForm>>({
         name: auth.user.name,
         email: auth.user.email,
+        role: auth.user.role,
     });
 
     const submit: FormEventHandler = (e) => {
@@ -81,6 +83,18 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
 
                             <InputError className="mt-2" message={errors.email} />
                         </div>
+                        {/* role cannot be changed */}
+                        <div className="grid gap-2">
+                            <Label htmlFor="role">Role</Label>
+                            <Input
+                                id="role"
+                                className="mt-1 block w-full"
+                                value={data.role}
+                                readOnly
+                                aria-braillelabel={`Role: ${data.role}`}
+                            />
+                            <InputError className="mt-2" message={errors.role} />
+                        </div>
 
                         {mustVerifyEmail && auth.user.email_verified_at === null && (
                             <div>
@@ -119,8 +133,11 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
                         </div>
                     </form>
                 </div>
-
-                <DeleteUser />
+                {(auth.user.role === 'admin') ?
+                <DeleteUser />:
+                <p
+                className="text-red-600 mt-4"
+                >Cannot delete account if not admin</p>}
             </SettingsLayout>
         </AppLayout>
     );
