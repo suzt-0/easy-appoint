@@ -1,18 +1,50 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Appointment;
+use App\Http\Controllers\Controller;
 
 use App\Models\Appointment;
+use App\Models\Practitioner;
 use Illuminate\Http\Request;
 
 class AppointmentController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of all the appointments for admin and frontdesk.
+     * This method retrieves all active appointments and returns them to the index view.
      */
-    public function index()
+    public function indexAll()
     {
-        //
+        // for admin and frontdesk to see all the appointments 
+
+        $appointments = Appointment::all()->where('is_active', true);
+
+        // Return the appointment index view with the list of appointments
+        return inertia(
+            'Appointment/Index',
+            [
+                'appointments' => $appointments
+            ]
+        );
+    }
+
+    /**
+     * Display a listing of all the appointments for practitioners 
+     * This method retrieves all active appointments and returns them to the practitioner index view.
+     */
+    public function indexForPractitioner(Practitioner $practitioner){ //here the paramenters can be either practitioner or patient
+        $appointments = Appointment::where('practitioner_id', $practitioner->id)
+            ->where('is_active', true)
+            ->get();
+        // Return the appointment index view with the list of appointments for the practitioner
+        return inertia(
+            'Appointment/PractitionerIndex',
+            [
+                'appointments' => $appointments,
+                'practitioner' => $practitioner
+            ]
+        );
+
     }
 
     /**
