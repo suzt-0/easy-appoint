@@ -23,7 +23,7 @@ class Schedule extends Model
     /**
      * A schedule belongs to a practitioner.
      */
-    public function practitioner()
+    public function practitioner() //many-to-one relationship
     {
         return $this->belongsTo(Practitioner::class);
     }

@@ -11,11 +11,12 @@ class Practitioner extends Model
     use HasFactory;
 
     protected $fillable = [
+        'user_id',
         'family_name',
         'given_name',
         'gender',
-        // 'birth_date',
-        // 'active',
+        'birth_date',
+        'active',
     ];
 
     /**
@@ -42,7 +43,24 @@ class Practitioner extends Model
         return $this->hasManyThrough(Appointment::class, AppointmentParticipants::class, 'practitioner_id', 'id', 'id', 'appointment_id');
     }
 
-     /**
+    /**
+     * A practitioner belongs to a user.
+     */
+
+    public function user()
+    {
+        return $this->belongsTo(User::class); //it is a one-to-one relationship
+    }
+
+    /**
+     * A practitioner can have many schedules.
+     */ 
+    public function schedules()
+    {
+        return $this->hasMany(Schedule::class);
+    }
+
+    /**
      * A practitioner can get notifications
      */
     // public function notifications()

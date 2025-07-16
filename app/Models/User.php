@@ -46,4 +46,10 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    
+   //define the relationship with practitioner
+    public function practitioner()
+    {
+        return $this->hasOne(Practitioner::class);
+    }
 }
