@@ -14,7 +14,10 @@ class UserAccountController extends Controller
     public function index()
     {
         // Fetch all users from the database
-        $users = User::all(); // Exclude admin users from the list\
+        $users = User::all(); // Exclude admin users from the list
+        //to exclude admin users, you can modify the query like this:
+        // $users = User::where('role', '!=', 'admin')->get();
+        // dd($users);
         return inertia('Admin/listUser', ['users' => $users]);
 
     }
