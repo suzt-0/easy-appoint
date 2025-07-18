@@ -52,4 +52,10 @@ class User extends Authenticatable
     {
         return $this->hasOne(Practitioner::class);
     }
+
+    //define the relatioship with patient
+    public function patient()
+    {
+        return $this->hasOne(Patient::class);
+    }
 }

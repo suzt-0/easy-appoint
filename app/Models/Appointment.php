@@ -31,4 +31,12 @@ class Appointment extends Model
     {
         return $this->hasMany(AppointmentNotes::class);
     }
+
+    /**
+     * The appointment can have one slot.
+     */
+    public function slot()
+    {
+        return $this->belongsTo(Slot::class, 'slot_id', 'id'); // assuming 'slot_id' is the foreign key in the Appointment model
+    }
 }

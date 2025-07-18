@@ -61,6 +61,14 @@ class Practitioner extends Model
     }
 
     /**
+     * A practitioner can have many slots through schedules.
+     */
+    public function slots()
+    {
+        return $this->hasManyThrough(Slot::class, Schedule::class, 'practitioner_id', 'schedule_id', 'id', 'id');
+    }
+
+    /**
      * A practitioner can get notifications
      */
     // public function notifications()

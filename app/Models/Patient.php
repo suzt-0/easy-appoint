@@ -13,11 +13,12 @@ class Patient extends Model
     use HasFactory;
 
     protected $fillable = [
-        'identifier',
-        'family',
-        'given',
+        'family_name',
+        'given_name',
         'gender',
         'birth_date',
+        'active',
+        'user_id', // Foreign key to the users table
     ];
 
     /**
@@ -42,6 +43,15 @@ class Patient extends Model
     public function appointments(): HasManyThrough
     {
         return $this->hasManyThrough(Appointment::class, AppointmentParticipants::class, 'patient_id', 'id', 'id', 'appointment_id');
+    }
+
+    /**
+     * A practitioner belongs to a user.
+     */
+
+    public function user()
+    {
+        return $this->belongsTo(User::class); //it is a one-to-one relationship
     }
 
     /**
