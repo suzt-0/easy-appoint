@@ -18,6 +18,8 @@ return new class extends Migration {
             $table->date('birth_date')->nullable();
             $table->boolean('active')->default(true);
             $table->timestamps();
+
+            $table->foreignId('user_id')->constrained('users')->nullable()->nullOnDelete();
         });
     }
 

@@ -12,7 +12,7 @@ return new class extends Migration {
     {
         Schema::create('practitioners', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->string('given_name');
             $table->string('family_name');
             $table->enum('gender', ['male', 'female', 'other', 'unknown'])->nullable();

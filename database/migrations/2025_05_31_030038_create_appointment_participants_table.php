@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('appointment_participants', function (Blueprint $table) {
             $table->id();
-             $table->foreignId('appointment_id')->constrained()->onDelete('cascade');
+             $table->foreignId('appointment_id')->constrained('appointments')->onDelete('cascade');
             $table->string('actor_type'); // 'patient' or 'practitioner'
             $table->unsignedBigInteger('actor_id'); //patient_id and practitioner_id
             $table->enum('status', ['accepted', 'declined', 'tentative', 'needs-action']);

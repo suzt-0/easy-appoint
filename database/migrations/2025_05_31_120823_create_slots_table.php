@@ -16,7 +16,8 @@ return new class extends Migration
             $table->foreignId('schedule_id')->constrained('schedules')->onDelete('cascade');
             $table->dateTime('start');
             $table->dateTime('end');
-            $table->foreignId('patient_id')->nullable()->constrained('patients')->nullOnDelete(); // Nullable for free slots
+            //removed patient_id foreign key since it's not required in our context
+            // $table->foreignId('patient_id')->nullable()->constrained('patients')->nullOnDelete(); // Nullable for free slots
             $table->string('description')->nullable(); // Optional description for the slot
             $table->enum('status', ['free', 'busy', 'entered-in-error'])->default('free'); 
             //[ busy | free | busy-unavailable | busy-tentative | entered-in-error ] values must be within the given value set

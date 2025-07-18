@@ -18,6 +18,7 @@ return new class extends Migration
             $table->timestamp('end')->nullable();
             $table->text('description')->nullable();
             $table->timestamps();
+            $table->foreignId('slot_id')->constrained('slots')->nullOnDelete();
         });
     }
 
