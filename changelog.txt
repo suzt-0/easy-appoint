@@ -1,0 +1,107 @@
+----User-----------------------------------------------------------
+
+
+    -> User Model 
+        -> add a relationship between patient and a user 
+        [a user has one patient ie one to one relationship]
+
+    -> User Migration 
+        -> fix default role value from "frontDesk" to "frontdesk"
+
+    -> User Account Controller 
+        -> fix validator update() method: removed validation error in "email" field  
+
+
+----Practitioner--------------------------------------------------
+
+    -> Practitioner Model
+        -> add a new relation between practtitioner and the slots
+            (a practitioner can have many slots through schedule ie. one to many relationships )
+
+    ->Practitioner Migration
+        -> fix foreign_key constrained to user table "->constrained('users')"
+
+ 
+----Schedule------------------------------------------------------
+
+
+    -> Schedule Model
+        ->update fillable 'add slot_duration'
+        -> add a new relation between schedule and the slots
+            (a schedule can have many slots ie. one to many relationships )
+
+    -> Schedule Migrations 
+        -> add a new field "slot_duation"
+
+    -> Schedule Controller
+        -> add a new method "toggleActive(Schedule $schedule)"
+
+
+----Slot---------------------------------------------------------
+
+
+    -> Slot Model
+        -> update fillable `add description field`
+        -> remove relatioship between practitioner
+        -> add relationship between schedule and slots (many to one) 
+            [ slots belongs to schedule ]
+        -> add relationship between practitioner and slots (many to one) 
+            [ slots belongs to Practitioner through schedules ]
+        -> add a relatioship between appointment and slots (one to one ) 
+            [each slot cah have one appointment]
+
+    -> Slot Migration 
+        -> remove patient_id foreign_key as it was un-necessary 
+
+
+----Patient----------------------------------------------------------
+
+
+    -> Patient Model
+        -> update fillable fields to match migration fields
+        -> add a relatioship between patient and user 
+        [a patient belongs to a user]
+
+    -> Patient Migration
+        -> add user_id foreign_key constrained on "users" table
+
+
+
+----appointment---------------------------------------------------------
+
+
+    ->Appointment Model 
+        -> add a relatioship between appointment and slots (one to one ) 
+        [each appointment belongs to one slot]
+
+    ->Appointment Migration 
+        -> add slot_id as a foreign key
+        -> fix foreign key in "appointment_participants" updated"->constrained("appointments")"
+
+ 
+----Report---------------------------------------------------------------
+
+
+->
+
+
+----Notification--------------------------------------------------------
+
+
+->
+
+
+----Payment-Portal--------------------------------------------------------
+
+
+->
+
+
+----FHIR-Server----------------------------------------------------------
+
+
+->
+
+
+
+
