@@ -82,7 +82,7 @@ class UserAccountController extends Controller
         // Validate the request data
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
+            'email' => 'required|string|email|max:255',
             'role' => 'required|in:doctor,frontdesk',
             // 'password' => 'nullable|string|min:8|confirmed',
         ]);

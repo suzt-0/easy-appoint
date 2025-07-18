@@ -24,11 +24,6 @@ class ScheduleController extends Controller
             'practitioner' => $practitioner,
         ]);
 
-        //return json data for API response
-        // return json_encode([
-        //     'schedules' => $schedules,
-        //     'practitioner' => $practitioner,
-        // ]);
     }
 
     /**
@@ -147,5 +142,19 @@ class ScheduleController extends Controller
         // Redirect back to the schedule index with a success message
         return redirect()->route('practitioner.schedule.index', ['practitioner' => $practitionerId])
             ->with('success', 'Schedule deleted successfully.');
+    }
+    
+    /**
+     * Toggle the active status of the specified schedule.
+     */
+    public function toggleActive(Schedule $schedule)
+    {
+        // Toggle the active status of the schedule
+        $schedule->active = !$schedule->active; //if active is true, set it to false and vice versa
+        $schedule->save();
+
+        // Redirect back to the schedule index with a success message
+        return redirect()->route('practitioner.schedule.index', ['practitioner' => $schedule->practitioner_id])
+            ->with('success', 'Schedule status updated successfully.');
     }
 }
