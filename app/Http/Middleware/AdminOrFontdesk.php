@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
-class AdminCheck
+class AdminOrFontdesk
 {
     /**
      * Handle an incoming request.
@@ -16,16 +16,17 @@ class AdminCheck
      */
     public function handle(Request $request, Closure $next): Response
     {
-        //check if authenticated
+           //check if authenticated
         if (!Auth::check()) {
             return redirect('/login')->with('error', 'Please log in to access this page.');
         }
 
         //check if user is an admin
-        if (Auth::user()->role === 'admin') {
+        if (Auth::user()->role === 'admin'|| Auth::user()->role === 'frontdesk') {
             return $next($request);
-        } else {
-           abort(403, 'Unauthorized action. You do not have administrator privileges.');
+        } 
+        else {
+             abort(403, 'Unauthorized action.');
         }
     }
 }

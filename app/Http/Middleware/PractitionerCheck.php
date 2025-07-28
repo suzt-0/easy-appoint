@@ -25,7 +25,7 @@ class PractitionerCheck
         if (Auth::user()->role === 'doctor') {
             return $next($request);
         } else {
-            return abort(403, 'Unauthorized action. You do not have enough privileges.');
+            abort(403, 'Unauthorized action. You do not have enough privileges.');
         } 
     }
 }

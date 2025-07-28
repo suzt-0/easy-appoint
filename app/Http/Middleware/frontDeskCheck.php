@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
-class AdminCheck
+class frontDeskCheck
 {
     /**
      * Handle an incoming request.
@@ -25,7 +25,7 @@ class AdminCheck
         if (Auth::user()->role === 'frontDesk') {
             return $next($request);
         } else {
-            return abort(403, 'Unauthorized action.');
+            abort(403, 'Unauthorized action.');
         }
     }
 }
