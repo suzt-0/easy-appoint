@@ -14,11 +14,10 @@ return new class extends Migration
         Schema::create('appointments', function (Blueprint $table) {
             $table->id();
             $table->enum('status', ['proposed', 'pending', 'booked', 'arrived', 'fulfilled', 'cancelled', 'noshow']);
-            $table->timestamp('start')->nullable();
-            $table->timestamp('end')->nullable();
-            $table->text('description')->nullable();
+            $table->date('appointment_date');
+            $table->text('description')->nullable(); 
             $table->timestamps();
-            $table->foreignId('slot_id')->constrained('slots')->nullOnDelete();
+            $table->foreignId('schedule_id')->constrained('schedules')->nullOnDelete();
         });
     }
 
