@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Practitioner;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PractitionerController extends Controller
 {
@@ -65,7 +66,7 @@ class PractitionerController extends Controller
         }
 
         // start a transaction to ensure data integrity
-        \DB::beginTransaction();
+        DB::beginTransaction();
 
         try {
             // dd($validatedData);
@@ -105,9 +106,9 @@ class PractitionerController extends Controller
                 }
             }
 
-            \DB::commit();
+            DB::commit();
         } catch (\Exception $e) {
-            \DB::rollBack();
+            DB::rollBack();
             return back()->withErrors(['error' => 'Failed to create practitioner: ' . $e->getMessage()]);
         }
 
@@ -168,7 +169,7 @@ class PractitionerController extends Controller
             'qualifications.*.issuer' => 'nullable|string|max:255',
         ]);
 
-        \DB::beginTransaction();
+        DB::beginTransaction();
 
         try {
             // Update the practitioner's basic info
@@ -204,9 +205,9 @@ class PractitionerController extends Controller
                 }
             }
 
-            \DB::commit();
+            DB::commit();
         } catch (\Exception $e) {
-            \DB::rollBack();
+            DB::rollBack();
             return back()->withErrors(['error' => 'Failed to update practitioner: ' . $e->getMessage()]);
         }
 
