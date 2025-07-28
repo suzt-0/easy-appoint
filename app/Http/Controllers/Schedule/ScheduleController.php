@@ -88,48 +88,6 @@ class ScheduleController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Schedule $schedule)
-    {
-        //edit form for a specific schedule
-        return inertia('Practitioner/Schedule/editSchedule', [
-            'schedule' => $schedule,
-            'practitioner' => $schedule->practitioner,
-            'daysOfWeek' => ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-        ]);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Schedule $schedule)
-    {
-        // Validate the request data
-        $validatedData = $request->validate([
-            'service_category' => 'nullable|string|max:255',
-            'service_type' => 'nullable|string|max:255',
-            'specialty' => 'nullable|string|max:255',
-            'active' => 'boolean',
-            'day_of_week' => 'required|string|in:Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday',
-            'start_time' => 'required|date_format:H:i',
-            'end_time' => 'required|date_format:H:i|after:start_time',
-        ]);
-        // Update the schedule using mass assignment
-        $schedule->update([
-            'service_category' => $validatedData['service_category'],
-            'service_type' => $validatedData['service_type'],
-            'specialty' => $validatedData['specialty'],
-            'active' => $validatedData['active'] ?? true, // Default to true if not provided
-            'day_of_week' => $validatedData['day_of_week'],
-            'start_time' => $validatedData['start_time'],
-            'end_time' => $validatedData['end_time'],
-        ]);
-        // Redirect back to the schedule index with a success message
-        return redirect()->route('practitioner.schedule.index', ['practitioner' => $schedule->practitioner_id])
-            ->with('success', 'Schedule updated successfully.');
-    }
 
     /**
      * Remove the specified resource from storage.
