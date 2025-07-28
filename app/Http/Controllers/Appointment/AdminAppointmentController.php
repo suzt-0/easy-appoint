@@ -310,6 +310,7 @@ class AdminAppointmentController extends Controller
                   ->where('actor_id', $practitioner_id);
         })->where('is_active', true)->with(['schedule', 'participants'])->get();
 
+        
         $practitioner = Practitioner::with('user')->findOrFail($practitioner_id);
 
         return inertia(
