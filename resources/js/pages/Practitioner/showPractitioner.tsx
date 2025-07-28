@@ -48,7 +48,7 @@ type Practitioner = {
 };
 
 export default function ShowPractitioner() {
-    const { practitioner } = usePage<SharedData & { practitioner: Practitioner }>().props;
+    const { auth ,practitioner } = usePage<SharedData & { practitioner: Practitioner }>().props;
 
     const handleDelete = () => {
         if (confirm('Are you sure you want to delete this practitioner?')) {
@@ -185,31 +185,32 @@ export default function ShowPractitioner() {
                                         )}
                                     </div>
                                 </div>
-                            </div>
-                        </div>
+                            </div>                        </div>
 
                         {/* Action Buttons */}
-                        {/* <div className="border-t border-[#e2e8f0] dark:border-[#475569] pt-4 mt-6">
-                            <div className="flex flex-wrap gap-3 justify-center lg:justify-end">
-                                <Link href={route('practitioner.edit', practitioner.id)}>
-                                    <Button type="button">
-                                        Edit
+                        {auth.user.role === 'admin' && (
+                            <div className="border-t border-[#e2e8f0] dark:border-[#475569] pt-4 mt-6">
+                                <div className="flex flex-wrap gap-3 justify-center lg:justify-end">
+                                    <Link href={route('practitioner.edit', practitioner.id)}>
+                                        <Button type="button">
+                                            Edit
+                                        </Button>
+                                    </Link>
+                                    <Button
+                                        type="button"
+                                        variant="destructive"
+                                        onClick={handleDelete}
+                                    >
+                                        Delete
                                     </Button>
-                                </Link>
-                                <Button
-                                    type="button"
-                                    variant="destructive"
-                                    onClick={handleDelete}
-                                >
-                                    Delete
-                                </Button>
-                                <Link href={route('practitioner.schedule.index', practitioner.id)}>
-                                    <Button type="button" variant="secondary">
-                                        Schedules
-                                    </Button>
-                                </Link>
+                                    {/* <Link href={route('practitioner.schedule.practitioner.index', practitioner.id)}>
+                                        <Button type="button" variant="secondary">
+                                            Schedules
+                                        </Button>
+                                    </Link> */}
+                                </div>
                             </div>
-                        </div> */}
+                        )}
                         </CardContent>
                 </Card>
             </div>
