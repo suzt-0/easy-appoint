@@ -13,14 +13,11 @@ return new class extends Migration
     {
         Schema::create('appointment_participants', function (Blueprint $table) {
             $table->id();
-             $table->foreignId('appointment_id')->constrained('appointments')->onDelete('cascade');
+            $table->foreignId('appointment_id')->constrained('appointments')->onDelete('cascade');
             $table->string('actor_type'); // 'patient' or 'practitioner'
             $table->unsignedBigInteger('actor_id'); //patient_id and practitioner_id
             $table->enum('status', ['accepted', 'declined', 'tentative', 'needs-action']);
-            // $table->boolean('required')->default(true);
             $table->timestamps();
-
-            //why is this ??? need to know 
             $table->index(['actor_type', 'actor_id']);
         });
     }

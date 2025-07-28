@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('day_of_week');
             $table->time('start_time');
             $table->time('end_time');
-            $table->integer('slot_duration')->default(15); // e.g., 15-minute slots
+            // $table->integer('slot_duration')->default(15); // e.g., 15-minute slots
             $table->timestamps();
         });
     }
