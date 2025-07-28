@@ -25,18 +25,18 @@ class AppointmentParticipants extends Model
     }
 
     /**
-     * Participant may be a patient.
+     * Participant may be a patient (when actor_type is 'patient').
      */
     public function patient()
     {
-        return $this->belongsTo(Patient::class);
+        return $this->belongsTo(Patient::class, 'actor_id')->where('actor_type', 'patient');
     }
 
     /**
-     * Participant may be a practitioner.
+     * Participant may be a practitioner (when actor_type is 'practitioner').
      */
     public function practitioner()
     {
-        return $this->belongsTo(Practitioner::class);
+        return $this->belongsTo(Practitioner::class, 'actor_id')->where('actor_type', 'practitioner');
     }
 }

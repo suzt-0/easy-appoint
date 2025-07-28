@@ -47,15 +47,33 @@ class User extends Authenticatable
         ];
     }
     
-   //define the relationship with practitioner
+    //define the relationship with practitioner
     public function practitioner()
     {
         return $this->hasOne(Practitioner::class);
     }
 
-    //define the relatioship with patient
+    //define the relationship with patient through pivot table
     public function patient()
     {
-        return $this->hasOne(Patient::class);
+        return $this->hasOneThrough(Patient::class, UserPatient::class, 'user_id', 'id', 'id', 'patient_id');
+    }
+
+    /**
+     * Get the user-patient relationship record
+     */
+    public function userPatient()
+    {
+        return $this->hasOne(UserPatient::class);
+    }
+
+    /**
+     * Get patient appointments through service
+     * Use PatientUserService::getAppointmentsForUser() for better control
+     */
+    public function getPatientAppointments()
+    {
+        $patientUserService = app(\App\Services\PatientUserService::class);
+        return $patientUserService->getAppointmentsForUser($this);
     }
 }

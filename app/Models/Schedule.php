@@ -18,7 +18,7 @@ class Schedule extends Model
         'day_of_week',
         'start_time',
         'end_time',
-        'slot_duration', 
+        // 'slot_duration', 
     ];
 
     /**
@@ -30,10 +30,10 @@ class Schedule extends Model
     }
 
     /**
-     * A schedule can have many slots.
+     * A schedule can have many appointments.
      */
-    public function slots() //one-to-many relationship
+    public function appointments() //one-to-many relationship
     {
-        return $this->hasMany(Slot::class);
+        return $this->hasMany(Appointment::class);
     }
 }

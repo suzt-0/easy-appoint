@@ -18,7 +18,7 @@ class Patient extends Model
         'gender',
         'birth_date',
         'active',
-        'user_id', // Foreign key to the users table
+        // 'user_id', // Foreign key to the users table
     ];
 
     /**
@@ -46,12 +46,28 @@ class Patient extends Model
     }
 
     /**
-     * A practitioner belongs to a user.
+     * A patient belongs to a user.
      */
 
     public function user()
     {
-        return $this->belongsTo(User::class); //it is a one-to-one relationship
+        return $this->hasOneThrough(User::class, UserPatient::class, 'patient_id', 'id', 'id', 'user_id');
+    }
+
+    /**
+     * Get the user-patient relationship record
+     */
+    public function userPatient()
+    {
+        return $this->hasOne(UserPatient::class);
+    }
+
+    /**
+     * Check if this patient is linked to a user account
+     */
+    public function hasUserAccount()
+    {
+        return $this->userPatient()->exists();
     }
 
     /**

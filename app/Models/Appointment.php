@@ -10,9 +10,9 @@ class Appointment extends Model
      use HasFactory;
 
     protected $fillable = [
+        'schedule_id',
         'status',
-        'start',
-        'end',
+        'appointment_date',
         'description',
     ];
 
@@ -33,10 +33,37 @@ class Appointment extends Model
     }
 
     /**
-     * The appointment can have one slot.
+     * The appointment is assosiated with a schedule.
      */
-    public function slot()
+    public function schedule()
     {
-        return $this->belongsTo(Slot::class, 'slot_id', 'id'); // assuming 'slot_id' is the foreign key in the Appointment model
+        return $this->belongsTo(Schedule::class, 'schedule_id', 'id'); 
+    }
+
+    /**
+     * The appointment can have one patient.
+     */
+    public function patient(){
+        return $this->hasOneThrough(
+            Patient::class,
+            AppointmentParticipants::class,
+            'appointment_id', // Foreign key on AppointmentParticipants table
+            'id', // Foreign key on Patient table
+            'id', // Local key on Appointment table
+            'actor_id' // Local key on AppointmentParticipants table
+        )->where('actor_type', 'patient');                          
+    }
+    /**
+     * The appointment can have one patient.
+     */
+    public function practitioner(){
+        return $this->hasOneThrough(
+            Practitioner::class,
+            AppointmentParticipants::class,
+            'appointment_id', // Foreign key on AppointmentParticipants table
+            'id', // Foreign key on practitioner table
+            'id', // Local key on Appointment table
+            'actor_id' // Local key on AppointmentParticipants table
+        )->where('actor_type', 'practitioner');                          
     }
 }
