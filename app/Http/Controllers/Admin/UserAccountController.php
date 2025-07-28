@@ -14,10 +14,7 @@ class UserAccountController extends Controller
     public function index()
     {
         // Fetch all users from the database
-        $users = User::all(); // Exclude admin users from the list
-        //to exclude admin users, you can modify the query like this:
-        // $users = User::where('role', '!=', 'admin')->get();
-        // dd($users);
+        $users = User::all(); 
         return inertia('Admin/listUser', ['users' => $users]);
 
     }
@@ -26,7 +23,7 @@ class UserAccountController extends Controller
     public function show(User $user)
     {
         // Return the view with the user data
-        return inertia('Admin/UserDetails', ['user' => $user]);
+        // return inertia('Admin/UserDetails', ['user' => $user]);
     }
 
     //a method to create a new user
@@ -58,7 +55,7 @@ class UserAccountController extends Controller
             'email' => $validatedData['email'],
             'role' => $validatedData['role'],
             'email_verified_at' => now(), // Set email verification date to now for testing purposes
-            'remember_token' => Str::random(10), // Generate a random remember token
+            'remember_token' => random_int(10,10), // Generate a random remember token
             'password' => bcrypt($validatedData['name'].'Pwd@1234'),
         ]);
         
@@ -114,11 +111,12 @@ class UserAccountController extends Controller
     }
 
     //method to show all the users with doctor role
-    public function doctors()
+    public function selectPractitioner()
     {
-        // Fetch all users with the role of 'doctor'
-        $users = User::where('role', 'doctor')->get();
-        // dd($users);
+        // Fetch all users with the role of 'doctor' and is not a practitioner
+        $users = User::where('role', 'doctor')
+                    ->whereDoesntHave('practitioner')
+                    ->get();
         
         // Return the view with the list of doctors
         return inertia('Practitioner/selectPractitioner', ['users' => $users]);
