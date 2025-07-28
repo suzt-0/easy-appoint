@@ -16,39 +16,11 @@ use App\Http\Controllers\Schedule\AdminScheduleController ;
 
 
 
-//---------------------------------------------------------------------------------------------------------------------------------//
-
-//doesnot work needs fixing 
-// Route::get('/admin/appointment/practitioner/{practitioner}', [AdminAppointmentController::class, 'practitionerAppointments'])->name('admin.appointment.practitioner.appointments'); //to view appointments for a specific practitioner
-
-   
-    
-    // //old schedule routes needs to be disposed or repurposed 
-    //     Route::get('/practitioner/{practitioner}/schedule', [ScheduleController::class, 'index'])->name('practitioner.schedule.index');
-    //     Route::get('/practitioner/{practitioner}/schedule/create', [ScheduleController::class, 'create'])->name('practitioner.schedule.create');
-    //     Route::post('/practitioner/{practitioner}/schedule/store', [ScheduleController::class, 'store'])->name('practitioner.schedule.store');
-    //     Route::get('/practitioner/{practitioner}/schedule/{schedule}', [ScheduleController::class, 'show'])->name('practitioner.schedule.show');
-    //     Route::get('/practitioner/{practitioner}/schedule/edit/{schedule}', [ScheduleController::class, 'edit'])->name('practitioner.schedule.edit');
-    //     Route::put('/practitioner/{practitioner}/schedule/update/{schedule}', [ScheduleController::class, 'update'])->name('practitioner.schedule.update');
-    //     Route::delete('/practitioner/{practitioner}/schedule/delete/{schedule}', [ScheduleController::class, 'destroy'])->name('practitioner.schedule.destroy');
-    
-        
-        
-//------------------------------------------------------------------------------------------------------------------------------------------------//
-    //UI test route
-    
-    Route::get('/test', function (){
-        // return Inertia::render( 'Patient/patient-manage'); //add component here 
-    })->name('test');
-    
-    // ----------------------------no-auth routes---------------------------------------------------------------------------------------------------// 
+// ----------------------------no-auth routes---------------------------------------------------------------------------------------------------// 
     
     
     //landing page 
-    Route::get('/', function () {
-        return Inertia::render('welcome');
-    })->name('home');
-    
+    Route::get('/', function () {return Inertia::render('welcome');})->name('home');
     
     // unauthenticated appointment booking routes 
     Route::get('/appointment/create', [NewAppointmentController::class, 'create'])->name('appointment.create'); //to show appointment booking form
@@ -63,9 +35,12 @@ use App\Http\Controllers\Schedule\AdminScheduleController ;
     Route::post('/user/patient/store', [PatientUserController::class, 'store'])->name('patient.user.store'); //to store patient user data
     Route::get('/patient/login', [PatientLoginController::class, 'loginForm'])->name('patient.user.loginForm'); //for patient login form
     Route::post('/patient/login', [PatientLoginController::class, 'login'])->name('patient.user.login'); //to login patient user
+ 
     
+
     
-    // ----------------------------auth only routes----------------------------------------------------------- 
+// ----------------------------auth only routes----------------------------------------------------------- 
+
     Route::middleware(['auth', 'verified'])->group(function () {
         //for basic dashboard 
         Route::get('dashboard', function () {
@@ -92,6 +67,7 @@ use App\Http\Controllers\Schedule\AdminScheduleController ;
 });
 
 // ----------------------------admin only routes----------------------------------------------------------- 
+
 Route::middleware(['isAdmin','auth'])->group(function () {
     
     // user management related routes 
@@ -107,9 +83,9 @@ Route::middleware(['isAdmin','auth'])->group(function () {
     Route::get('/admin/users/select-practitioner',[UserAccountController::class,'selectPractitioner'])->name('doctor.index');
     Route::get('/admin/practitioner/{user}/create', [PractitionerController::class, 'create'])->name('practitioner.create');
     Route::post('/admin/practitioner/store', [PractitionerController::class, 'store'])->name('practitioner.store');
-    Route::delete('/admin/practitioner/{practitioner}/delete',[PractitionerController::class, 'destroy'])->name('practitioner.destroy');
     Route::get('/practitioner/{practitioner}/edit', [PractitionerController::class, 'edit'])->name('practitioner.edit');
     Route::put('/practitioner/{practitioner}/update', [PractitionerController::class, 'update'])->name('practitioner.update');
+    Route::delete('/admin/practitioner/{practitioner}/delete',[PractitionerController::class, 'destroy'])->name('practitioner.destroy');
 
     //schedule management routes specific to admin
     Route::get('/admin/schedule/edit/{schedule}', [AdminScheduleController::class, 'edit'])->name('admin.schedule.edit');
@@ -123,9 +99,11 @@ Route::middleware(['isAdmin','auth'])->group(function () {
 
 
 // ----------------------------staff routes----------------------------------------------------------- 
+
 Route::middleware(['isStaff'])->group(function () {
     
-    
+    //why did I create this middleware (ಥ‿ಥ)
+    //what am I doing
 });
 
 
@@ -139,6 +117,7 @@ Route::middleware(['adminOrFrontdesk', 'auth', 'verified'])->group(function () {
     //routes for admin to manage schedules 
     Route::get('/admin/schedule/manage', [AdminScheduleController::class, 'dashboard'])->name('admin.schedule.dashboard'); //to view all schedules
     Route::get('/admin/schedules', [AdminScheduleController::class, 'index'])->name('admin.schedule.index');
+    // Route::get('/admin/schedules/{practitioner}', [AdminScheduleController::class, 'practitionerIndex'])->name('admin.schedule.practitoner.index');
     Route::get('/admin/schedule/selectpractitioner', [AdminScheduleController::class, 'selectPractitioner'])->name('admin.schedule.practitioners'); //to view appointments for a specific schedule
     Route::get('/admin/schedule/create/{practitioner}', [AdminScheduleController::class, 'create'])->name('admin.schedule.create');
     Route::post('/admin/schedule/store/{practitioner}', [AdminScheduleController::class, 'store'])->name('admin.schedule.store');
@@ -188,5 +167,32 @@ Route::middleware(['auth', 'verified'])->group(function () {
         
     });
 //-----------------------------------------------------------------------------------------------------------------------
+
+
+//---------------------------------------------------------------------------------------------------------------------------------//
+
+//doesnot work needs fixing 
+// Route::get('/admin/appointment/practitioner/{practitioner}', [AdminAppointmentController::class, 'practitionerAppointments'])->name('admin.appointment.practitioner.appointments'); //to view appointments for a specific practitioner
+
+   
+    
+    // //old schedule routes needs to be disposed or repurposed 
+    //     Route::get('/practitioner/{practitioner}/schedule', [ScheduleController::class, 'index'])->name('practitioner.schedule.index');
+    //     Route::get('/practitioner/{practitioner}/schedule/create', [ScheduleController::class, 'create'])->name('practitioner.schedule.create');
+    //     Route::post('/practitioner/{practitioner}/schedule/store', [ScheduleController::class, 'store'])->name('practitioner.schedule.store');
+    //     Route::get('/practitioner/{practitioner}/schedule/{schedule}', [ScheduleController::class, 'show'])->name('practitioner.schedule.show');
+    //     Route::get('/practitioner/{practitioner}/schedule/edit/{schedule}', [ScheduleController::class, 'edit'])->name('practitioner.schedule.edit');
+    //     Route::put('/practitioner/{practitioner}/schedule/update/{schedule}', [ScheduleController::class, 'update'])->name('practitioner.schedule.update');
+    //     Route::delete('/practitioner/{practitioner}/schedule/delete/{schedule}', [ScheduleController::class, 'destroy'])->name('practitioner.schedule.destroy');
+    
+        
+        
+//------------------------------------------------------------------------------------------------------------------------------------------------//
+    //UI test route
+    
+    Route::get('/test', function (){
+        // return Inertia::render( 'Patient/patient-manage'); //add component here 
+    })->name('test');
+ //--------------------------------------------------------------------------------------------------------------------------------------------   
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
