@@ -143,8 +143,10 @@ class PractitionerController extends Controller
      */
     public function edit(Practitioner $practitioner)
     {
-        //
-        return inertia('Practitioner/editPractitioner'); //
+        $practitioner->load(['telecoms', 'qualifications']); // Load related telecoms and qualifications
+        // dd($practitioner);
+        
+        return inertia('Practitioner/editPractitioner',['practitioner' => $practitioner]); //
     }
 
     /**
@@ -211,7 +213,7 @@ class PractitionerController extends Controller
             return back()->withErrors(['error' => 'Failed to update practitioner: ' . $e->getMessage()]);
         }
 
-        return redirect()->route('practitioners.edit', $practitioner)->with('success', 'Practitioner updated successfully.');
+        return redirect()->route('practitioner.show', $practitioner)->with('success', 'Practitioner updated successfully.');
     }
 
     /**
