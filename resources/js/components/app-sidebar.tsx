@@ -28,12 +28,12 @@ const adminNavItems: NavItem[] = [
     },
     {
         title: 'Schedule Management',
-        href: '#',
+        href: '/admin/schedule/manage',
         icon: FileClock,
     },
     {
         title: 'Appointment Management',
-        href: '/admin/appointment',
+        href: '/admin/appointment/manage',
         icon: FileClock,
     },
     {
@@ -51,14 +51,31 @@ const practitionerNavItems: NavItem[] = [
         icon: LayoutGrid,
     },
     {
-        title: 'Schedule Management',
+        title: 'My Schedule',
+        href: '/practitioner/schedule',
+        icon: Clock1,
+    },
+    {
+        title: 'My appointments',
+        href: '/practitioner/appointment',
+        icon: FileClock,
+    },
+];
+const patientNavItems: NavItem[] = [
+    {
+        title: 'Dashboard',
+        href: '/dashboard',
+        icon: LayoutGrid,
+    },
+    {
+        title: 'My Appointments',
         href: '#',
         icon: FileClock,
     },
     {
-        title: 'Appointment Management',
-        href: '/practitioner/appointment',
-        icon: FileClock,
+        title: 'My Reports',
+        href: '#',
+        icon: Folder,
     },
 ];
 
@@ -70,15 +87,25 @@ const frontDeskNavItems: NavItem[] = [
         icon: LayoutGrid,
     },
     {
-        title: 'Appointment Management',
-        href: '/admin/appointment',
+        title: 'Appointments',
+        href: '/admin/appointments',
         icon: FileClock,
     },
-    // {
-    //     title: 'Reports',
-    //     href: '/admin/reports',
-    //     icon: File,
-    // }
+     {
+         title: 'Book Appointment',
+         href: '/appointment/select-schedule',
+         icon: Clock1,
+    },
+    {
+        title: 'Patients',
+        href: '/patients',
+        icon: Folder,
+    },
+    {
+        title: 'Practitioners',
+        href: 'admin/practitioners',
+        icon: Folder,
+    },
 ];
 
 
@@ -121,11 +148,13 @@ export function AppSidebar() {
                 <NavMain items={
                     (auth.user.role === 'admin') ?
                         adminNavItems :
-                        (auth.user.role === 'doctor') ?
-                            practitionerNavItems :
-                            (auth.user.role === 'frontdesk') ?
-                                frontDeskNavItems :
-                                guestNavItems
+                        (auth.user.role === 'patient') ?
+                            patientNavItems :
+                            (auth.user.role === 'doctor') ?
+                                practitionerNavItems :
+                                (auth.user.role === 'frontdesk') ?
+                                    frontDeskNavItems :
+                                    guestNavItems
                 } />
             </SidebarContent>
 

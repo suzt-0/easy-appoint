@@ -14,10 +14,10 @@ const breadcrumbs: BreadcrumbItem[] = [
         title: 'Practitioner Management',
         href: '/dashboard/practitioner/manage',
     },
-    {
-        title: 'Add Practitioner',
-        href: '/admin/users/doctors'
-    },
+    // {
+    //     title: 'Add Practitioner',
+    //     href: '/admin/users/doctors'
+    // },
     {
         title: 'Add Practitioner details',
         href: '/test',
@@ -101,58 +101,63 @@ export default function CreatePractitioner() {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Add Practitioner" />
-            <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
-                <Card className="max-w-lg px-1 bg-background shadow-lg border border-border" >
-                    <CardHeader>
-                        <CardTitle>Add Practitioner</CardTitle>
-                        <CardDescription className="text-muted-foreground">Username : {user.name}</CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                        <form
-                            onSubmit={submit}
-                            className="flex flex-col space-y-6"
-                        >
-                            {/* <div>
-                        <Label htmlFor="user_id" className="text-gray-200">User ID</Label>
-                        <Input
-                            id="user_id"
-                            name="user_id"
-                            value={data.user_id}
-                            onChange={e => setData('user_id', e.target.value)}
-                            disabled={processing}
-                            required
-                            className="bg-gray-900 border border-gray-700 text-gray-100"
-                        />
-                        <InputError message={errors.user_id} className="mt-2 text-red-400 text-sm" />
-                    </div> */}
-                            <div>
-                                <Label htmlFor="family_name" className="text-gray-200">Family Name</Label>
-                                <Input
-                                    id="family_name"
-                                    name="family_name"
-                                    value={data.family_name}
-                                    onChange={e => setData('family_name', e.target.value)}
-                                    disabled={processing}
-                                    required
-                                    className="bg-gray-900 border border-gray-700 text-gray-100"
-                                />
-                                <InputError message={errors.family_name} className="mt-2 text-red-400 text-sm" />
+            <div className="min-h-screen px-4 sm:px-6 lg:px-8 py-6">
+                <div className="max-w-4xl mx-auto space-y-6">
+                    {/* Welcome Header */}
+                    <div className="glass glass-dark rounded-xl p-4 sm:p-6 lg:p-8 shadow-elegant">
+                        <h1 className="text-gradient-blue text-2xl sm:text-3xl lg:text-4xl font-bold mb-2">
+                            Add Practitioner
+                        </h1>
+                        <p className="text-[#64748b] dark:text-[#cbd5e1] text-base sm:text-lg">
+                            Create a new practitioner profile for {user.name}
+                        </p>
+                    </div>
+
+                    {/* Form Section */}
+                    <div className="glass glass-dark rounded-xl p-4 sm:p-6 lg:p-8 shadow-elegant">
+                        <form onSubmit={submit} className="space-y-6">
+                            {/* Basic Information */}
+                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
+                                <div className="space-y-2">
+                                    <Label htmlFor="family_name" className="text-sm font-semibold text-[#1e293b] dark:text-[#f1f5f9]">
+                                        Family Name
+                                    </Label>
+                                    <Input
+                                        id="family_name"
+                                        name="family_name"
+                                        value={data.family_name}
+                                        onChange={e => setData('family_name', e.target.value)}
+                                        disabled={processing}
+                                        required
+                                        placeholder="Enter family name"
+                                        className="h-10 sm:h-12 rounded-lg border-[#e2e8f0] bg-[#f8fafc] px-3 sm:px-4 text-[#1e293b] placeholder-[#64748b] transition-all duration-200 focus:border-[#3b82f6] focus:bg-white focus:ring-2 focus:ring-[#3b82f6]/20 dark:border-[#475569] dark:bg-[#334155] dark:text-[#f1f5f9] dark:placeholder-[#cbd5e1] dark:focus:border-[#60a5fa] dark:focus:bg-[#1e293b] dark:focus:ring-[#60a5fa]/20"
+                                    />
+                                    <InputError message={errors.family_name} />
+                                </div>
+
+                                <div className="space-y-2">
+                                    <Label htmlFor="given_name" className="text-sm font-semibold text-[#1e293b] dark:text-[#f1f5f9]">
+                                        Given Name
+                                    </Label>
+                                    <Input
+                                        id="given_name"
+                                        name="given_name"
+                                        value={data.given_name}
+                                        onChange={e => setData('given_name', e.target.value)}
+                                        disabled={processing}
+                                        required
+                                        placeholder="Enter given name"
+                                        className="h-10 sm:h-12 rounded-lg border-[#e2e8f0] bg-[#f8fafc] px-3 sm:px-4 text-[#1e293b] placeholder-[#64748b] transition-all duration-200 focus:border-[#3b82f6] focus:bg-white focus:ring-2 focus:ring-[#3b82f6]/20 dark:border-[#475569] dark:bg-[#334155] dark:text-[#f1f5f9] dark:placeholder-[#cbd5e1] dark:focus:border-[#60a5fa] dark:focus:bg-[#1e293b] dark:focus:ring-[#60a5fa]/20"
+                                    />
+                                    <InputError message={errors.given_name} />
+                                </div>
                             </div>
-                            <div>
-                                <Label htmlFor="given_name" className="text-gray-200">Given Name</Label>
-                                <Input
-                                    id="given_name"
-                                    name="given_name"
-                                    value={data.given_name}
-                                    onChange={e => setData('given_name', e.target.value)}
-                                    disabled={processing}
-                                    required
-                                    className="bg-gray-900 border border-gray-700 text-gray-100"
-                                />
-                                <InputError message={errors.given_name} className="mt-2 text-red-00 text-sm" />
-                            </div>
-                            <div>
-                                <Label htmlFor="gender" className="text-gray-200">Gender</Label>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+                            <div className="space-y-2">
+                                <Label htmlFor="gender" className="text-sm font-semibold text-[#1e293b] dark:text-[#f1f5f9]">
+                                    Gender
+                                </Label>
                                 <select
                                     id="gender"
                                     name="gender"
@@ -160,17 +165,20 @@ export default function CreatePractitioner() {
                                     onChange={e => setData('gender', e.target.value)}
                                     disabled={processing}
                                     required
-                                    className="border border-gray-700 bg-gray-900 text-gray-100 rounded-md px-3 py-2"
+                                    className="h-10 sm:h-12 w-full rounded-lg border-[#e2e8f0] bg-[#f8fafc] px-3 sm:px-4 text-[#1e293b] transition-all duration-200 focus:border-[#3b82f6] focus:bg-white focus:ring-2 focus:ring-[#3b82f6]/20 dark:border-[#475569] dark:bg-[#334155] dark:text-[#f1f5f9] dark:focus:border-[#60a5fa] dark:focus:bg-[#1e293b] dark:focus:ring-[#60a5fa]/20"
                                 >
                                     <option value="male">Male</option>
                                     <option value="female">Female</option>
                                     <option value="other">Other</option>
                                     <option value="unknown">Unknown</option>
                                 </select>
-                                <InputError message={errors.gender} className="mt-2 text-red-400 text-sm" />
+                                <InputError message={errors.gender} />
                             </div>
-                            <div>
-                                <Label htmlFor="birth_date" className="text-gray-200">Birth Date</Label>
+
+                            <div className="space-y-2">
+                                <Label htmlFor="birth_date" className="text-sm font-semibold text-[#1e293b] dark:text-[#f1f5f9]">
+                                    Birth Date
+                                </Label>
                                 <Input
                                     id="birth_date"
                                     name="birth_date"
@@ -178,12 +186,14 @@ export default function CreatePractitioner() {
                                     value={data.birth_date}
                                     onChange={e => setData('birth_date', e.target.value)}
                                     disabled={processing}
-                                    className="bg-gray-900 border border-gray-700 text-gray-100"
+                                    className="h-10 sm:h-12 rounded-lg border-[#e2e8f0] bg-[#f8fafc] px-3 sm:px-4 text-[#1e293b] transition-all duration-200 focus:border-[#3b82f6] focus:bg-white focus:ring-2 focus:ring-[#3b82f6]/20 dark:border-[#475569] dark:bg-[#334155] dark:text-[#f1f5f9] dark:focus:border-[#60a5fa] dark:focus:bg-[#1e293b] dark:focus:ring-[#60a5fa]/20"
                                 />
-                                <InputError message={errors.birth_date} className="mt-2 text-red-400 text-sm" />
+                                <InputError message={errors.birth_date} />
                             </div>
-                            <div>
-                                <Label htmlFor="active" className="text-gray-200">Active</Label>
+                        </div>
+
+                        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4 p-4 rounded-lg bg-[#f8fafc] dark:bg-[#334155] border border-[#e2e8f0] dark:border-[#475569]">
+                            <div className="flex items-center space-x-3">
                                 <input
                                     id="active"
                                     name="active"
@@ -191,91 +201,145 @@ export default function CreatePractitioner() {
                                     checked={data.active}
                                     onChange={e => setData('active', e.target.checked)}
                                     disabled={processing}
-                                    className="accent-blue-600"
+                                    className="h-4 w-4 rounded border-[#e2e8f0] text-[#3b82f6] focus:ring-[#3b82f6]/20 dark:border-[#475569] dark:bg-[#334155]"
                                 />
-                                <InputError message={errors.active} className="mt-2 text-red-400 text-sm" />
+                                <Label htmlFor="active" className="text-sm text-[#64748b] dark:text-[#cbd5e1] cursor-pointer">
+                                    Mark as active practitioner
+                                </Label>
                             </div>
-                            <div>
-                                <Label className="text-gray-200">Telecoms</Label>
+                            <p className="text-xs text-[#64748b] dark:text-[#cbd5e1] sm:ml-auto">
+                                Active practitioners can accept appointments
+                            </p>
+                            <InputError message={errors.active} />
+                        </div>
+
+                        {/* Telecoms Section */}
+                        <div className="space-y-4">
+                            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                                <Label className="text-base sm:text-lg font-semibold text-[#1e293b] dark:text-[#f1f5f9]">
+                                    Contact Information
+                                </Label>
+                                <Button 
+                                    type="button" 
+                                    onClick={addTelecom} 
+                                    className="h-9 sm:h-10 px-3 sm:px-4 rounded-lg bg-gradient-to-r from-[#10b981] to-[#059669] text-white text-sm font-medium shadow-lg hover:from-[#059669] hover:to-[#047857] transition-all duration-200 transform hover:scale-105"
+                                >
+                                    Add Contact
+                                </Button>
+                            </div>
+                            <div className="space-y-3">
                                 {data.telecoms.map((telecom, idx) => (
-                                    <div key={idx} className="flex gap-2 mb-2">
-                                        <select
-                                            value={telecom.system}
-                                            onChange={e => handleTelecomChange(idx, 'system', e.target.value)}
-                                            className="border border-gray-700 bg-gray-900 text-gray-100 rounded-md px-2 py-1"
-                                        >
-                                            <option value="phone">Phone</option>
-                                            <option value="email">Email</option>
-                                            <option value="fax">Fax</option>
-                                            <option value="pager">Pager</option>
-                                            <option value="url">URL</option>
-                                            <option value="sms">SMS</option>
-                                            <option value="other">Other</option>
-                                        </select>
+                                    <div key={idx} className="flex flex-col gap-3 p-3 sm:p-4 rounded-lg bg-[#f8fafc] dark:bg-[#334155] border border-[#e2e8f0] dark:border-[#475569] sm:flex-row sm:gap-3">
+                                        <div className="grid grid-cols-2 gap-2 sm:contents">
+                                            <select
+                                                value={telecom.system}
+                                                onChange={e => handleTelecomChange(idx, 'system', e.target.value)}
+                                                className="h-9 sm:h-10 rounded-lg border-[#e2e8f0] bg-white px-2 sm:px-3 text-sm text-[#1e293b] dark:border-[#475569] dark:bg-[#1e293b] dark:text-[#f1f5f9]"
+                                            >
+                                                <option value="phone">Phone</option>
+                                                <option value="email">Email</option>
+                                                <option value="fax">Fax</option>
+                                                <option value="pager">Pager</option>
+                                                <option value="url">URL</option>
+                                                <option value="sms">SMS</option>
+                                                <option value="other">Other</option>
+                                            </select>
+                                            <select
+                                                value={telecom.use}
+                                                onChange={e => handleTelecomChange(idx, 'use', e.target.value)}
+                                                className="h-9 sm:h-10 rounded-lg border-[#e2e8f0] bg-white px-2 sm:px-3 text-sm text-[#1e293b] dark:border-[#475569] dark:bg-[#1e293b] dark:text-[#f1f5f9]"
+                                            >
+                                                <option value="home">Home</option>
+                                                <option value="work">Work</option>
+                                                <option value="mobile">Mobile</option>
+                                                <option value="temp">Temp</option>
+                                                <option value="old">Old</option>
+                                            </select>
+                                        </div>
                                         <Input
                                             value={telecom.value}
                                             onChange={e => handleTelecomChange(idx, 'value', e.target.value)}
-                                            placeholder="Value"
-                                            className="bg-gray-900 border border-gray-700 text-gray-100 rounded-md px-2 py-1"
+                                            placeholder="Contact value"
+                                            className="sm:flex-1 h-9 sm:h-10 rounded-lg border-[#e2e8f0] bg-white px-2 sm:px-3 text-sm text-[#1e293b] dark:border-[#475569] dark:bg-[#1e293b] dark:text-[#f1f5f9]"
                                         />
-                                        <select
-                                            value={telecom.use}
-                                            onChange={e => handleTelecomChange(idx, 'use', e.target.value)}
-                                            className="border border-gray-700 bg-gray-900 text-gray-100 rounded-md px-2 py-1"
+                                        <Button 
+                                            type="button" 
+                                            onClick={() => removeTelecom(idx)} 
+                                            className="h-9 sm:h-10 px-3 sm:px-4 rounded-lg bg-gradient-to-r from-[#ef4444] to-[#dc2626] text-white text-sm font-medium hover:from-[#dc2626] hover:to-[#b91c1c] transition-all duration-200"
                                         >
-                                            <option value="home">Home</option>
-                                            <option value="work">Work</option>
-                                            <option value="mobile">Mobile</option>
-                                            <option value="temp">Temp</option>
-                                            <option value="old">Old</option>
-                                        </select>
-                                        <Button type="button" onClick={() => removeTelecom(idx)} className="bg-red-800 text-red-100 hover:bg-red-600 hover:text-white cursor-pointer">Remove</Button>
+                                            Remove
+                                        </Button>
                                     </div>
                                 ))}
-                                <Button type="button" onClick={addTelecom} className="bg-green-800 text-green-100 hover:bg-green-600 hover:text-white cursor-pointer">Add Telecom</Button>
-                                <InputError message={errors['telecoms']} className="mt-2 text-red-400 text-sm" />
                             </div>
-                            <div>
-                                <Label className="text-gray-200">Qualifications</Label>
+                            <InputError message={errors['telecoms']} />
+                        </div>
+
+                        {/* Qualifications Section */}
+                        <div className="space-y-4">
+                            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                                <Label className="text-base sm:text-lg font-semibold text-[#1e293b] dark:text-[#f1f5f9]">
+                                    Professional Qualifications
+                                </Label>
+                                <Button 
+                                    type="button" 
+                                    onClick={addQualification} 
+                                    className="h-9 sm:h-10 px-3 sm:px-4 rounded-lg bg-gradient-to-r from-[#8b5cf6] to-[#7c3aed] text-white text-sm font-medium shadow-lg hover:from-[#7c3aed] hover:to-[#6d28d9] transition-all duration-200 transform hover:scale-105"
+                                >
+                                    Add Qualification
+                                </Button>
+                            </div>
+                            <div className="space-y-3">
                                 {data.qualifications.map((qualification, idx) => (
-                                    <div key={idx} className="flex gap-2 mb-2">
+                                    <div key={idx} className="flex flex-col gap-3 p-3 sm:p-4 rounded-lg bg-[#f8fafc] dark:bg-[#334155] border border-[#e2e8f0] dark:border-[#475569] lg:flex-row lg:gap-3">
                                         <Input
                                             value={qualification.code}
                                             onChange={e => handleQualificationChange(idx, 'code', e.target.value)}
-                                            placeholder="Code"
-                                            className="bg-gray-900 border border-gray-700 text-gray-100 rounded-md px-2 py-1"
+                                            placeholder="Qualification code"
+                                            className="lg:flex-1 h-9 sm:h-10 rounded-lg border-[#e2e8f0] bg-white px-2 sm:px-3 text-sm text-[#1e293b] dark:border-[#475569] dark:bg-[#1e293b] dark:text-[#f1f5f9]"
                                         />
-                                        <Input
-                                            type="date"
-                                            value={qualification.period || ''}
-                                            onChange={e => handleQualificationChange(idx, 'period', e.target.value)}
-                                            placeholder="Period"
-                                            className="bg-gray-900 border border-gray-700 text-gray-100 rounded-md px-2 py-1"
-                                        />
-                                        <Input
-                                            value={qualification.issuer || ''}
-                                            onChange={e => handleQualificationChange(idx, 'issuer', e.target.value)}
-                                            placeholder="Issuer"
-                                            className="bg-gray-900 border border-gray-700 text-gray-100 rounded-md px-2 py-1"
-                                        />
-                                        <Button type="button" onClick={() => removeQualification(idx)} className="bg-red-800 text-red-100 hover:bg-red-600 hover:text-white cursor-pointer">Remove</Button>
+                                        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:">
+                                            <Input
+                                                type="date"
+                                                value={qualification.period || ''}
+                                                onChange={e => handleQualificationChange(idx, 'period', e.target.value)}
+                                                placeholder="Issue date"
+                                                className="h-9 sm:h-10 rounded-lg border-[#e2e8f0] bg-white px-2 sm:px-3 text-sm text-[#1e293b] dark:border-[#475569] dark:bg-[#1e293b] dark:text-[#f1f5f9]"
+                                            />
+                                            <Input
+                                                value={qualification.issuer || ''}
+                                                onChange={e => handleQualificationChange(idx, 'issuer', e.target.value)}
+                                                placeholder="Issuing organization"
+                                                className=" h-9 sm:h-10 rounded-lg border-[#e2e8f0] bg-white px-2 sm:px-3 text-sm text-[#1e293b] dark:border-[#475569] dark:bg-[#1e293b] dark:text-[#f1f5f9]"
+                                            />
+                                        </div>
+                                        <Button 
+                                            type="button" 
+                                            onClick={() => removeQualification(idx)} 
+                                            className="h-9 sm:h-10 px-3 sm:px-4 rounded-lg bg-gradient-to-r from-[#ef4444] to-[#dc2626] text-white text-sm font-medium hover:from-[#dc2626] hover:to-[#b91c1c] transition-all duration-200"
+                                        >
+                                            Remove
+                                        </Button>
                                     </div>
                                 ))}
-                                <Button type="button" onClick={addQualification} className="bg-green-800 text-green-100 hover:bg-green-600 hover:text-white cursor-pointer">Add Qualification</Button>
-                                <InputError message={errors['qualifications']} className="mt-2 text-red-400 text-sm" />
                             </div>
+                            <InputError message={errors['qualifications']} />
+                        </div>
+
+                        {/* Submit Button */}
+                        <div className="pt-4 sm:pt-6">
                             <Button
                                 type="submit"
-                                className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
+                                className="w-full h-10 sm:h-12 rounded-lg bg-gradient-to-r from-[#3b82f6] to-[#1d4ed8] text-white text-sm sm:text-base font-semibold shadow-lg hover:from-[#2563eb] hover:to-[#1e40af] focus:from-[#2563eb] focus:to-[#1e40af] focus:ring-2 focus:ring-[#3b82f6]/20 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98]"
                                 disabled={processing}
                             >
-                                {processing && <LoaderCircle className="h-4 w-4 animate-spin" />}
-                                Create Practitioner
+                                {processing && <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />}
+                                {processing ? 'Creating...' : 'Create Practitioner Profile'}
                             </Button>
-                        </form>
-                    </CardContent>
-                </Card>
-                {/* <h2 className="text-2xl font-bold text-gray-100 mb-8 text-center">Create Practitioner</h2> */}
+                        </div>
+                    </form>
+                </div>
+                </div>
             </div>
         </AppLayout>
     );

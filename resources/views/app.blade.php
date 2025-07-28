@@ -19,14 +19,16 @@
             })();
         </script>
 
-        {{-- Inline style to set the HTML background color based on our theme in app.css --}}
+        {{-- Inline style to set the HTML background with gradient to match our theme --}}
         <style>
             html {
-                background-color: oklch(1 0 0);
+                background: linear-gradient(135deg, #f0f9ff 0%, #fefefe 50%, #f0f9ff 100%);
+                min-height: 100vh;
             }
 
             html.dark {
-                background-color: oklch(0.145 0 0);
+                background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+                min-height: 100vh;
             }
         </style>
 

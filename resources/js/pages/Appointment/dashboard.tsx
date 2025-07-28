@@ -19,71 +19,77 @@ type DashboardCard = {
     href: string;
 };
 
-// Admin dashboard cards
+// Admin dashboard cards - Appointment Management Focus
 const adminDashboardCards: DashboardCard[] = [
     {
-        title: 'Users',
-        description: 'Manage and monitor all users',
-        content: '👥 User Management',
-        href: '/dashboard/user/manage',
+        title: 'All Appointments',
+        description: 'View and manage all appointments in the system',
+        content: '� Complete Overview',
+        href: '/admin/appointments',
     },
     {
-        title: 'Practitioners',
-        description: 'Manage healthcare practitioners',
-        content: '👨‍⚕️ Medical Staff',
-        href: '/dashboard/practitioner/manage',
+        title: 'Create Appointment',
+        description: 'Schedule new appointments for patients',
+        content: '➕ New Booking',
+        href: '/appointment/select-schedule',
     },
-    {
-        title: 'Schedules',
-        description: 'Manage practitioner schedules and availability',
-        content: '📅 Schedules',
-        href: '/admin/schedule/manage',
-    },
-    {
-        title: 'Patients',
-        description: 'Patient records and management',
-        content: '🏥 Patient Care',
-        href: '/dashboard/patient/manage',
-    },
-    {
-        title: 'Appointments',
-        description: 'Manage and monitor all appointments',
-        content: '📅 Appointment System',
-        href: '/admin/appointment/manage',
-    },
+    // {
+    //     title: 'Schedule Management',
+    //     description: 'Manage practitioner schedules and availability',
+    //     content: '�️ Schedules',
+    //     href: '/admin/schedule/manage',
+    // },
+    // {
+    //     title: 'Patient Registry',
+    //     description: 'Patient records and contact management',
+    //     content: '👥 Patient Database',
+    //     href: '/dashboard/patient/manage',
+    // },
+    // {
+    //     title: 'Practitioners',
+    //     description: 'Manage healthcare practitioners and their profiles',
+    //     content: '👨‍⚕️ Medical Staff',
+    //     href: '/dashboard/practitioner/manage',
+    // },
+    // {
+    //     title: 'System Users',
+    //     description: 'User account management and roles',
+    //     content: '⚙️ User Management',
+    //     href: '/dashboard/user/manage',
+    // },
 ];
 
-// Patient dashboard cards
+// Patient dashboard cards - Appointment Focus
 const patientDashboardCards: DashboardCard[] = [
     {
-        title: 'Book Appointment',
+        title: 'Book New Appointment',
         description: 'Schedule a new appointment with healthcare providers',
         content: '📅 New Booking',
         href: '/appointment/select-schedule',
     },
     {
         title: 'My Appointments',
-        description: 'View and manage your upcoming appointments',
+        description: 'View and manage your upcoming and past appointments',
         content: '🗓️ My Schedule',
         href: '/patient/appointments',
     },
+    {
+        title: 'Appointment History',
+        description: 'Review your medical appointment history and notes',
+        content: '📋 History',
+        href: '/patient/appointment-history',
+    },
+    {
+        title: 'Reschedule/Cancel',
+        description: 'Modify or cancel existing appointments',
+        content: '� Manage Bookings',
+        href: '/patient/manage-appointments',
+    },
     // {
-    //     title: 'Reports',
-    //     description: 'Access your medical reports',
-    //     content: '📋 Reports',
-    //     href: '/patient/records',
-    // },
-    // {
-    //     title: 'Prescriptions',
-    //     description: 'View current and past prescriptions',
-    //     content: '💊 Medications',
-    //     href: '/patient/prescriptions',
-    // },
-    // {
-    //     title: 'Profile Settings',
-    //     description: 'Update your personal and contact information',
-    //     content: '⚙️ Account Settings',
-    //     href: '/patient/profile',
+    //     title: 'Find Doctors',
+    //     description: 'Browse available healthcare professionals',
+    //     content: '👨‍⚕️ Find Practitioners',
+    //     href: '/doctors',
     // },
     // {
     //     title: 'Emergency Contact',
@@ -93,33 +99,20 @@ const patientDashboardCards: DashboardCard[] = [
     // },
 ];
 
-// Receptionist dashboard cards
+// Receptionist dashboard cards - Appointment Operations Focus
 const receptionistDashboardCards: DashboardCard[] = [
     {
-         title: 'Book Appointment',
+        title: 'Book Appointment',
         description: 'Create a new appointment',
         content: '📅 New Appointment',
         href: '/appointment/select-schedule',
     },
-    {
-         title: 'Appointment',
-        description: 'List of appointments',
-        content: '📅 Appointments',
-        href: '/admin/appointments',
-    },
-    {
-        title: 'Patients',
-        description: 'Patient records and management',
-        content: '🏥 Patient Care',
-        href: '/patients',
-    },
-    {
-        title: 'Practitioners',
-        description: 'List of practitioners',
-        content: '👨‍⚕️ Practitioners',
-        href: 'admin/practitioners',
-    },
-    
+    // {
+    //     title: 'Schedule New Appointment',
+    //     description: 'Book appointments for patients calling in',
+    //     content: '📞 Phone Booking',
+    //     href: '/appointment/select-schedule',
+    // },
     // {
     //     title: 'Patient Check-in',
     //     description: 'Process patient arrivals and check-ins',
@@ -127,109 +120,103 @@ const receptionistDashboardCards: DashboardCard[] = [
     //     href: '/receptionist/checkin',
     // },
     // {
-    //     title: 'Patient Registry',
-    //     description: 'Register new patients and update records',
-    //     content: '📝 Registration',
+    //     title: 'Daily Schedule View',
+    //     description: 'View today\'s appointments and practitioner schedules',
+    //     content: '� Today\'s Schedule',
+    //     href: '/receptionist/daily-schedule',
+    // },
+    // {
+    //     title: 'Patient Registration',
+    //     description: 'Register new patients and update existing records',
+    //     content: '� Registration',
     //     href: '/dashboard/patient/manage',
     // },
     // {
-    //     title: 'Daily Schedule',
-    //     description: 'View and manage daily appointment schedule',
-    //     content: '🗓️ Today\'s Schedule',
-    //     href: '/receptionist/schedule',
-    // },
-    // {
-    //     title: 'Billing Support',
-    //     description: 'Assist with billing and payment processing',
-    //     content: '💳 Billing',
-    //     href: '/receptionist/billing',
-    // },
-    // {
-    //     title: 'Reports',
-    //     description: 'Generate daily and weekly reports',
+    //     title: 'Appointment Reports',
+    //     description: 'Generate appointment statistics and reports',
     //     content: '📊 Reports',
-    //     href: '/receptionist/reports',
+    //     href: '/receptionist/appointment-reports',
     // },
 ];
 
-// Practitioner dashboard cards
+// Practitioner dashboard cards - Appointment & Patient Focus
 const practitionerDashboardCards: DashboardCard[] = [
     {
-        title: 'My Schedule',
-        description: 'View and manage your appointment schedule',
-        content: '📅 Schedule',
+        title: 'My Appointments',
+        description: 'View and manage your scheduled appointments',
+        content: '📅 My Schedule',
+        href: '/practitioner/appointments',
+    },
+    {
+        title: 'Today\'s Patients',
+        description: 'Quick access to today\'s appointment list',
+        content: '🗓️ Today\'s List',
+        href: '/practitioner/today-appointments',
+    },
+    {
+        title: 'Appointment History',
+        description: 'Review past appointments and patient interactions',
+        content: '📋 History',
+        href: '/practitioner/appointment-history',
+    },
+    {
+        title: 'Schedule Management',
+        description: 'Update your availability and working hours',
+        content: '⏰ My Schedule',
         href: '/practitioner/schedule',
     },
     {
-        title: 'Patient Appointments',
-        description: 'View and manage patient appointments',
-        content: '🗓️ Appointments',
-        href: '/practitioner/appointments',
+        title: 'Patient Records',
+        description: 'Access patient medical records and notes',
+        content: '� Patient Files',
+        href: '/practitioner/patients',
     },
-    // {
-    //     title: 'Patient Records',
-    //     description: 'Access and update patient medical records',
-    //     content: '📋 Medical Records',
-    //     href: '/practitioner/patients',
-    // },
-    // {
-    //     title: 'Consultation Notes',
-    //     description: 'Add and review consultation notes',
-    //     content: '📝 Notes',
-    //     href: '/practitioner/notes',
-    // },
-    // {
-    //     title: 'Prescriptions',
-    //     description: 'Manage and create patient prescriptions',
-    //     content: '💊 Prescriptions',
-    //     href: '/practitioner/prescriptions',
-    // },
-    // {
-    //     title: 'Reports',
-    //     description: 'Generate patient and appointment reports',
-    //     content: '📊 Reports',
-    //     href: '/practitioner/reports',
-    // },
+    {
+        title: 'Consultation Notes',
+        description: 'Add notes and follow-ups from appointments',
+        content: '� Notes',
+        href: '/practitioner/notes',
+    },
 ];
 
-// Guest dashboard cards
+// Guest dashboard cards - Appointment Booking Focus
 const guestDashboardCards: DashboardCard[] = [
-    // {
-    //     title: 'Book Appointment',
-    //     description: 'Schedule your first appointment with us',
-    //     content: '📅 Get Started',
-    //     href: '/appointment/create',
-    // },
-    // {
-    //     title: 'Our Services',
-    //     description: 'Explore our healthcare services and specialties',
-    //     content: '🏥 Medical Services',
-    //     href: '/services',
-    // },
-    // {
-    //     title: 'Find a Doctor',
-    //     description: 'Browse our qualified healthcare professionals',
-    //     content: '👨‍⚕️ Find Doctors',
-    //     href: '/doctors',
-    // },
-    // {
-    //     title: 'Emergency Care',
-    //     description: '24/7 emergency healthcare services',
-    //     content: '🚨 Emergency',
-    //     href: '/emergency',
-    // },
-    // {
-    //     title: 'Health Resources',
-    //     description: 'Access health tips and educational content',
-    //     content: '📚 Learn More',
-    //     href: '/resources',
-    // },
-    // {
-    //     title: 'Contact Us',
-    //     description: 'Get in touch with our healthcare team',
-    //     content: '📞 Contact',
-    //     href: '/contact',
-    // },
+    {
+        title: 'Book Your First Appointment',
+        description: 'Schedule your first appointment with our healthcare team',
+        content: '📅 Get Started',
+        href: '/appointment/select-schedule',
+    },
+    {
+        title: 'Find a Doctor',
+        description: 'Browse our qualified healthcare professionals',
+        content: '👨‍⚕️ Browse Doctors',
+        href: '/doctors',
+    },
+    {
+        title: 'Available Services',
+        description: 'Explore our healthcare services and specialties',
+        content: '🏥 Our Services',
+        href: '/services',
+    },
+    {
+        title: 'Appointment Process',
+        description: 'Learn how our appointment booking system works',
+        content: '❓ How It Works',
+        href: '/how-to-book',
+    },
+    {
+        title: 'Emergency Care',
+        description: '24/7 emergency healthcare services',
+        content: '� Emergency',
+        href: '/emergency',
+    },
+    {
+        title: 'Contact Us',
+        description: 'Get in touch with our healthcare team',
+        content: '📞 Contact',
+        href: '/contact',
+    },
 ];
 
 export default function Dashboard() {
@@ -246,7 +233,7 @@ export default function Dashboard() {
                             <PatientCard />
                             : (auth.user.role === 'frontdesk') ?
                                 <ReceptitionistCard />
-                                : (auth.user.role === 'doctor') ?
+                                : (auth.user.role === 'doctor' || auth.user.role === 'practitioner') ?
                                     <PractitionerCard />
                                     : <GuestCard />}
                 </div>
@@ -259,8 +246,14 @@ function AdminCard() {
     return (
         <div className="space-y-4">
             <h2 className="text-2xl font-bold text-[#1e293b] dark:text-[#f1f5f9] mb-6">
-                Admin Dashboard
+                Appointment Management Dashboard
             </h2>
+            {/* <div className="mb-6 p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
+                <p className="text-sm text-blue-800 dark:text-blue-200">
+                    <strong>Admin Overview:</strong> Complete control over the appointment system - manage schedules, 
+                    book appointments, oversee practitioners, and maintain patient records.
+                </p>
+            </div> */}
             <div className="grid auto-rows-min gap-6 md:grid-cols-2 lg:grid-cols-3">
                 {adminDashboardCards.map((card, idx) => (
                     <a
@@ -309,8 +302,14 @@ function PatientCard() {
     return (
         <div className="space-y-4">
             <h2 className="text-2xl font-bold text-[#1e293b] dark:text-[#f1f5f9] mb-6">
-                Patient Dashboard
+                Patient Appointment Portal
             </h2>
+            <div className="mb-6 p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg">
+                <p className="text-sm text-green-800 dark:text-green-200">
+                    <strong>Welcome!</strong> Easily book appointments, manage your schedule, 
+                    and access your appointment history all in one place.
+                </p>
+            </div>
             <div className="grid auto-rows-min gap-6 md:grid-cols-2 lg:grid-cols-3">
                 {patientDashboardCards.map((card, idx) => (
                     <a
@@ -359,8 +358,14 @@ function ReceptitionistCard() {
     return (
         <div className="space-y-4">
             <h2 className="text-2xl font-bold text-[#1e293b] dark:text-[#f1f5f9] mb-6">
-                Receptionist Dashboard
+                Receptionist Operations Center
             </h2>
+            {/* <div className="mb-6 p-4 bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-800 rounded-lg">
+                <p className="text-sm text-purple-800 dark:text-purple-200">
+                    <strong>Front Desk Control:</strong> Handle appointment bookings, patient check-ins, 
+                    registration, and daily scheduling operations efficiently.
+                </p>
+            </div> */}
             <div className="grid auto-rows-min gap-6 md:grid-cols-2 lg:grid-cols-3">
                 {receptionistDashboardCards.map((card, idx) => (
                     <a
@@ -409,8 +414,14 @@ function PractitionerCard() {
     return (
         <div className="space-y-4">
             <h2 className="text-2xl font-bold text-[#1e293b] dark:text-[#f1f5f9] mb-6">
-                Practitioner Dashboard
+                Practitioner Appointment Hub
             </h2>
+            <div className="mb-6 p-4 bg-cyan-50 dark:bg-cyan-900/20 border border-cyan-200 dark:border-cyan-800 rounded-lg">
+                <p className="text-sm text-cyan-800 dark:text-cyan-200">
+                    <strong>Clinical Dashboard:</strong> Manage your appointments, access patient records, 
+                    update consultation notes, and maintain your schedule.
+                </p>
+            </div>
             <div className="grid auto-rows-min gap-6 md:grid-cols-2 lg:grid-cols-3">
                 {practitionerDashboardCards.map((card, idx) => (
                     <a
@@ -459,8 +470,14 @@ function GuestCard() {
     return (
         <div className="space-y-4">
             <h2 className="text-2xl font-bold text-[#1e293b] dark:text-[#f1f5f9] mb-6">
-                Welcome to Easy Appoint
+                Welcome to Easy Appoint - Book Your Healthcare
             </h2>
+            <div className="mb-6 p-4 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg">
+                <p className="text-sm text-amber-800 dark:text-amber-200">
+                    <strong>Get Started:</strong> Book your first appointment with our healthcare professionals. 
+                    Easy scheduling, qualified doctors, and comprehensive care await you.
+                </p>
+            </div>
             <div className="grid auto-rows-min gap-6 md:grid-cols-2 lg:grid-cols-3">
                 {guestDashboardCards.map((card, idx) => (
                     <a

@@ -239,7 +239,7 @@ function Sidebar({
       >
         <div
           data-sidebar="sidebar"
-          className="bg-sidebar group-data-[variant=floating]:border-sidebar-border flex h-full w-full flex-col group-data-[variant=floating]:rounded-lg group-data-[variant=floating]:border group-data-[variant=floating]:shadow-sm"
+          className="flex h-full w-full flex-col bg-white/90 backdrop-blur-sm shadow-xl group-data-[variant=floating]:border-[#e2e8f0]/50 group-data-[variant=floating]:rounded-lg group-data-[variant=floating]:border group-data-[variant=floating]:shadow-sm dark:bg-[#1e293b]/90 dark:group-data-[variant=floating]:border-[#475569]/50"
         >
           {children}
         </div>
