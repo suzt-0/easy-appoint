@@ -17,11 +17,11 @@ class AppointmentController extends Controller
     {
         // for admin and frontdesk to see all the appointments 
 
-        $appointments = Appointment::all()->where('is_active', true);
+        $appointments = Appointment::all();
 
         // Return the appointment index view with the list of appointments
         return inertia(
-            'Appointment/Index',
+            'Appointment/appointment-index',
             [
                 'appointments' => $appointments
             ]
