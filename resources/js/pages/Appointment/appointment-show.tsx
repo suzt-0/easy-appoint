@@ -3,6 +3,7 @@ import AppLayout from '@/layouts/app-layout';
 import { SharedData, type BreadcrumbItem } from '@/types';
 import { Button } from '@/components/ui/button';
 import { Head, usePage, Link, router } from '@inertiajs/react';
+import { useState } from 'react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -94,14 +95,24 @@ type Appointment = {
 
 export default function AdminAppointmentShow() {
     const { appointment } = usePage<SharedData & { appointment: Appointment }>().props;
+    const [isDeleting, setIsDeleting] = useState(false);
 
-    // const handleDelete = () => {
-    //     if (confirm('Are you sure you want to cancel this appointment?')) {
-    //         router.put(route('admin.appointment.update', appointment.id), {
-    //             status: 'cancelled'
-    //         });
-    //     }
-    // };
+    const handleDeleteAppointment = () => {
+        if (confirm('Are you sure you want to permanently delete this appointment? This action cannot be undone and will remove all related data including participants.')) {
+            setIsDeleting(true);
+            
+            router.delete(route('admin.appointment.destroy', appointment.id), {
+                onSuccess: () => {
+                    setIsDeleting(false);
+                    // Redirect will be handled by the controller
+                },
+                onError: (errors) => {
+                    setIsDeleting(false);
+                    console.error('Delete failed:', errors);
+                }
+            });
+        }
+    };
 
     const formatTime = (time: string) => {
         if (!time) return 'N/A';
@@ -199,23 +210,20 @@ export default function AdminAppointmentShow() {
                                 <CardDescription className="text-muted-foreground">
                                     Appointment ID: <span className="font-semibold text-foreground">#{appointment.id}</span>
                                 </CardDescription>
-                            </div>
-                            <div className="flex gap-2">
+                            </div>                            <div className="flex gap-2">
                                 <Link href={route('admin.appointment.edit', appointment.id)}>
                                     <Button variant="secondary" size="sm">
                                         Edit
                                     </Button>
-                                </Link>
-                                {appointment.status !== 'cancelled' && (
-                                    <></>
-                                    // <Button
-                                    //     variant="destructive"
-                                    //     size="sm"
-                                    //     onClick={handleDelete}
-                                    // >
-                                    //     Cancel
-                                    // </Button>
-                                )}
+                                </Link>                                <Button
+                                    variant="destructive"
+                                    size="sm"
+                                    onClick={handleDeleteAppointment}
+                                    disabled={isDeleting}
+                                    className="bg-red-600 hover:bg-red-700"
+                                >
+                                    {isDeleting ? 'Deleting...' : 'Delete'}
+                                </Button>
                             </div>
                         </div>
                     </CardHeader>

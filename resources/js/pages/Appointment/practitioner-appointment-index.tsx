@@ -16,7 +16,7 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
     {
         title: 'My Appointments',
-        href: '/practitioner/appointments',
+        href: '/user/practitioner/appointments',
     },
 ];
 
@@ -78,6 +78,7 @@ interface Appointment {
 
 interface PageProps {
     appointments: Appointment[];
+    message?: string;
     [key: string]: any;
 }
 
@@ -144,7 +145,7 @@ const isPast = (dateString: string) => {
 };
 
 export default function PractitionerAppointmentIndex() {
-    const { appointments } = usePage<PageProps>().props;
+    const { appointments, message } = usePage<PageProps>().props;
     const [searchTerm, setSearchTerm] = useState('');
     const [statusFilter, setStatusFilter] = useState('all');
     const [dateFilter, setDateFilter] = useState('all');
@@ -299,11 +300,20 @@ export default function PractitionerAppointmentIndex() {
                                 </Button>
                             </div>
                         )}
-                    </CardContent>
-                </Card>
+                    </CardContent>                </Card>
+
+                {/* Message Display */}
+                {message && (
+                    <Card className="text-center py-8">
+                        <CardContent>
+                            <CalendarDays className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
+                            <p className="text-muted-foreground">{message}</p>
+                        </CardContent>
+                    </Card>
+                )}
 
                 {/* Appointments Grid */}
-                {filteredAppointments.length === 0 ? (
+                {filteredAppointments.length === 0 && !message ? (
                     <Card className="text-center py-12">
                         <CardContent className="space-y-4">
                             <CalendarDays className="h-12 w-12 mx-auto text-muted-foreground" />
@@ -403,7 +413,7 @@ export default function PractitionerAppointmentIndex() {
                                         {/* Action Buttons */}
                                         <div className="flex space-x-2 pt-2">
                                             <Link 
-                                                href={`/practitioner/appointments/${appointment.id}`}
+                                                href={`/user/practitioner/appointment/${appointment.id}`}
                                                 className="flex-1"
                                             >
                                                 <Button 

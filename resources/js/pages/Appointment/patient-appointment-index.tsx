@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
-import { Head, Link, usePage } from '@inertiajs/react';
+import { Head, Link, router, usePage } from '@inertiajs/react';
 import { CalendarDays, Clock, Filter, Search, User, X } from 'lucide-react';
 import { useMemo, useState } from 'react';
 
@@ -151,9 +151,7 @@ export default function PatientAppointmentIndex() {
     const getPractitionerInfo = (appointment: Appointment) => {
         const practitioner = appointment.participants.find(p => p.actor_type === 'practitioner');
         return practitioner;
-    };
-
-    const getPatientStatus = (appointment: Appointment) => {
+    };    const getPatientStatus = (appointment: Appointment) => {
         const patient = appointment.participants.find(p => p.actor_type === 'patient');
         return patient?.status || 'unknown';
     };
@@ -170,8 +168,13 @@ export default function PatientAppointmentIndex() {
                         <p className="text-muted-foreground">
                             View and manage your upcoming and past appointments
                         </p>
-                    </div>
-                    <div className="flex items-center space-x-2">
+                    </div>                    <div className="flex items-center space-x-2">
+                        <Link href={route('patient.appointment.schedules')}>
+                            <Button className="flex items-center space-x-2">
+                                <CalendarDays className="h-4 w-4" />
+                                <span>Book New Appointment</span>
+                            </Button>
+                        </Link>
                         <Badge variant="outline" className="hidden md:inline-flex">
                             {filteredAppointments.length} appointment{filteredAppointments.length !== 1 ? 's' : ''}
                         </Badge>
@@ -345,14 +348,13 @@ export default function PatientAppointmentIndex() {
                                             </div>                                        )}                                        {/* Action Buttons */}
                                         <div className="flex space-x-2 pt-2">
                                             <Link 
-                                                href={`/patient/appointments/${appointment.id}`}
+                                                href={`/user/patient/appointments/${appointment.id}`}
                                                 className="flex-1"
                                             >
                                                 <Button 
                                                     variant="outline" 
                                                     size="sm" 
                                                     className="w-full"
-                                                    disabled={!isAppointmentUpcoming || appointment.status === 'cancelled'}
                                                 >
                                                     View Details
                                                 </Button>

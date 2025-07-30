@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
-import { Head, Link, usePage } from '@inertiajs/react';
+import { Head, Link, usePage, router } from '@inertiajs/react';
 import { 
     ArrowLeft, 
     Calendar, 
@@ -27,7 +27,7 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
     {
         title: 'My Appointments',
-        href: '/practitioner/appointments',
+        href: '/user/practitioner/appointments',
     },
     {
         title: 'Appointment Details',
@@ -222,7 +222,7 @@ export default function PractitionerAppointmentShow() {
                 <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-4">
                         <Link
-                            href="/practitioner/appointments"
+                            href="/user/practitioner/appointments"
                             className="flex items-center text-muted-foreground hover:text-foreground transition-colors"
                         >
                             <ArrowLeft className="h-4 w-4 mr-2" />
@@ -426,14 +426,31 @@ export default function PractitionerAppointmentShow() {
                                     </div>
                                 </CardContent>
                             </Card>
-                        )}
-
-                        {/* Quick Actions */}
+                        )}                        {/* Quick Actions */}
                         <Card>
                             <CardHeader>
                                 <CardTitle>Quick Actions</CardTitle>
                             </CardHeader>
-                            <CardContent className="space-y-3">
+                            <CardContent className="space-y-3">                                {/* Cancel Appointment Button */}
+                                <Button 
+                                    variant="destructive" 
+                                    className="w-full"
+                                    disabled={appointment.status === 'cancelled' || appointment.status === 'completed'}
+                                    onClick={() => {
+                                        if (confirm('Are you sure you want to cancel this appointment?')) {
+                                            router.put(`/user/practitioner/appointment/cancel/${appointment.id}`, {
+                                                cancelled_by: 'practitioner',
+                                                cancellation_reason: 'Cancelled by practitioner'
+                                            });
+                                        }
+                                    }}
+                                >
+                                    <Calendar className="h-4 w-4 mr-2" />
+                                    Cancel Appointment
+                                </Button>
+                                
+                                {/* Commented out other action buttons as requested */}
+                                {/*
                                 <Button 
                                     variant="outline" 
                                     className="w-full"
@@ -463,6 +480,7 @@ export default function PractitionerAppointmentShow() {
                                         Contact Patient
                                     </Button>
                                 )}
+                                */}
                             </CardContent>
                         </Card>
                     </div>

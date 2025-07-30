@@ -4,29 +4,30 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Separator } from '@/components/ui/separator';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
-import { Head, Link, usePage } from '@inertiajs/react';
-import { 
-    ArrowLeft, 
-    Calendar, 
-    Clock, 
-    FileText, 
-    MapPin, 
-    Phone, 
-    Stethoscope, 
-    User, 
+import { Head, Link, router, usePage } from '@inertiajs/react';
+import {
+    ArrowLeft,
+    Calendar,
+    Clock,
+    FileText,
+    MapPin,
+    Phone,
+    Stethoscope,
+    User,
     UserCheck,
     Mail,
-    Badge as BadgeIcon
+    Badge as BadgeIcon,
+    X
 } from 'lucide-react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Dashboard',
-        href: '/dashboard',
+        href: route('dashboard'),
     },
     {
         title: 'My Appointments',
-        href: '/patient/appointments',
+        href: route('patient.appointment.index'),
     },
     {
         title: 'Appointment Details',
@@ -198,27 +199,55 @@ const isUpcoming = (dateString: string) => {
     return appointmentDate >= today;
 };
 
+const isMoreThan24HoursAway = (dateString: string) => {
+    const appointmentDateTime = new Date(dateString);
+    const now = new Date();
+    const timeDifference = appointmentDateTime.getTime() - now.getTime();
+    const hoursUntilAppointment = timeDifference / (1000 * 3600);
+    
+    return hoursUntilAppointment >= 24;
+};
+
 export default function PatientAppointmentShow() {
     const { appointment } = usePage<PageProps>().props;
-    
+
     const practitionerParticipant = appointment.participants?.find(p => p.actor_type === 'practitioner');
     const patientParticipant = appointment.participants?.find(p => p.actor_type === 'patient');
-    
+
     const practitioner = appointment.practitioner || appointment.schedule?.practitioner || practitionerParticipant?.practitioner;
     const patient = appointment.patient || patientParticipant?.patient;
-    
+
     const isAppointmentUpcoming = isUpcoming(appointment.appointment_date);
+    const canReschedule = isMoreThan24HoursAway(appointment.appointment_date); const handleCancelAppointment = () => {
+        if (confirm('Are you sure you want to cancel this appointment? This action cannot be undone.')) {
+            router.put(route('patient.appointment.cancel', appointment.id), {
+                cancelled_by: 'patient',
+                cancellation_reason: null
+            }, {
+                onSuccess: () => {
+                    router.reload();
+                },
+                onError: (errors) => {
+                    console.error('Failed to cancel appointment:', errors);
+                    if (errors.error) {
+                        alert(errors.error);
+                    } else {
+                        alert('Failed to cancel appointment. Please try again.');
+                    }
+                }
+            });
+        }
+    };
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Appointment Details" />
-            
-            <div className="container mx-auto p-6 space-y-6">
-                {/* Header */}
+
+            <div className="container mx-auto p-6 space-y-6">                {/* Header */}
                 <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-4">
                         <Link
-                            href="/patient/appointments"
+                            href={route('patient.appointment.index')}
                             className="flex items-center text-muted-foreground hover:text-foreground transition-colors"
                         >
                             <ArrowLeft className="h-4 w-4 mr-2" />
@@ -449,35 +478,62 @@ export default function PatientAppointmentShow() {
                         )}
 
                         {/* Quick Actions */}
-                        {/* <Card>
+                        <Card>
                             <CardHeader>
                                 <CardTitle>Quick Actions</CardTitle>
-                            </CardHeader>
-                            <CardContent className="space-y-3">
-                                <Button 
-                                    variant="outline" 
-                                    className="w-full"
-                                    disabled={!isAppointmentUpcoming || appointment.status === 'cancelled'}
-                                >
-                                    <Calendar className="h-4 w-4 mr-2" />
-                                    Reschedule
-                                </Button>
-                                <Button 
-                                    variant="outline" 
-                                    className="w-full"
+                            </CardHeader>                            <CardContent className="">
+                                {canReschedule ? (
+                                    <Link className='space-y-3' href={route('patient.appointment.reschedule.show', appointment.id)}>
+                                        <Button
+                                            variant="outline"
+                                            className="w-full my-2"
+                                            disabled={!isAppointmentUpcoming || appointment.status === 'cancelled'}
+                                        >
+                                            <Calendar className="h-4 w-4 mr-2" />
+                                            Reschedule
+                                        </Button>
+                                    </Link>
+                                ) : (
+                                    <div className="space-y-2">
+                                        <Button
+                                            variant="outline"
+                                            className="w-full my-2 opacity-50 cursor-not-allowed"
+                                            disabled={true}
+                                        >
+                                            <Calendar className="h-4 w-4 mr-2" />
+                                            Reschedule
+                                        </Button>
+                                        <p className="text-xs text-muted-foreground text-center">
+                                            Can only reschedule 24+ hours in advance
+                                        </p>
+                                    </div>
+                                )}
+                                {/* <Button
+                                    variant="outline"
+                                    className="w-full my-2"
                                     disabled={appointment.status === 'cancelled'}
                                 >
                                     <FileText className="h-4 w-4 mr-2" />
                                     Download Details
-                                </Button>
+                                </Button> */}
                                 {practitioner?.telecoms?.find(t => t.system === 'phone') && (
                                     <Button variant="outline" className="w-full">
                                         <Phone className="h-4 w-4 mr-2" />
                                         Contact Provider
                                     </Button>
+                                )}                                
+                                {isAppointmentUpcoming && appointment.status !== 'cancelled' && (
+                                    <Button
+                                        variant="destructive"
+                                        className="w-full my-2"
+                                        onClick={handleCancelAppointment}
+                                    >
+                                        <X className="h-4 w-4 mr-2" />
+                                        Cancel Appointment
+                                    </Button>
                                 )}
                             </CardContent>
-                        </Card> */}
+                        </Card>
                     </div>
                 </div>
             </div>
