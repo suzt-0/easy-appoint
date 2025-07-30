@@ -147,10 +147,9 @@
         <div class="header">
             <h1>Appointment Updated</h1>
             <p>Your appointment details have been modified</p>
-        </div>
-        
+        </div>        
         <div class="content">
-            <p>Dear {{ $patient->given_name }} {{ $patient->family_name }},</p>
+            <p>Dear {{ $patientName }},</p>
             
             <div class="alert-box">
                 <strong>Important Notice:</strong> Your appointment has been updated. Please review the changes below and make note of the new details.
@@ -183,18 +182,18 @@
             <div class="appointment-card">
                 <div class="appointment-detail">
                     <span class="label">Appointment Date:</span>
-                    <span class="value">{{ \Carbon\Carbon::parse($appointment->appointment_date)->format('l, F j, Y \a\t g:i A') }}</span>
+                    <span class="value">{{ \Carbon\Carbon::parse($appointmentDate)->format('l, F j, Y \a\t g:i A') }}</span>
                 </div>
                 
                 <div class="appointment-detail">
                     <span class="label">Practitioner:</span>
-                    <span class="value">{{ $practitioner->given_name }} {{ $practitioner->family_name }}</span>
+                    <span class="value">{{ $practitionerName }}</span>
                 </div>
                 
                 <div class="appointment-detail">
                     <span class="label">Status:</span>
                     <span class="value">
-                        <span class="status-badge">{{ ucfirst($appointment->status) }}</span>
+                        <span class="status-badge">{{ ucfirst($appointmentStatus) }}</span>
                     </span>
                 </div>
                 

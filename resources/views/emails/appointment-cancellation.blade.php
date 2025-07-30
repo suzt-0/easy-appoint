@@ -148,10 +148,9 @@
         <div class="header">
             <h1>Appointment Cancelled</h1>
             <p>Your appointment has been cancelled</p>
-        </div>
-        
+        </div>        
         <div class="content">
-            <p>Dear {{ $patient->given_name }} {{ $patient->family_name }},</p>
+            <p>Dear {{ $patientName }},</p>
             
             <div class="alert-box">
                 <strong>Notice:</strong> We regret to inform you that your appointment has been cancelled. Please review the details below.
@@ -164,9 +163,9 @@
                 
                 <div class="reason-box">
                     <strong>Cancelled by:</strong> {{ ucfirst($cancelledBy) }}<br>
-                    <strong>Cancellation Date:</strong> {{ \Carbon\Carbon::now()->format('l, F j, Y \a\t g:i A') }}
+                    <strong>Cancellation Date:</strong> {{ $cancellationDate }}
                     
-                    @if($cancellationReason)
+                    @if($cancellationReason && $cancellationReason !== 'No reason provided')
                     <br><br>
                     <strong>Reason:</strong><br>
                     {{ $cancellationReason }}
@@ -179,12 +178,12 @@
             <div class="appointment-card">
                 <div class="appointment-detail">
                     <span class="label">Original Date:</span>
-                    <span class="value">{{ \Carbon\Carbon::parse($appointment->appointment_date)->format('l, F j, Y \a\t g:i A') }}</span>
+                    <span class="value">{{ \Carbon\Carbon::parse($appointmentDate)->format('l, F j, Y \a\t g:i A') }}</span>
                 </div>
                 
                 <div class="appointment-detail">
                     <span class="label">Practitioner:</span>
-                    <span class="value">{{ $practitioner->given_name }} {{ $practitioner->family_name }}</span>
+                    <span class="value">{{ $practitionerName }}</span>
                 </div>
                 
                 <div class="appointment-detail">
