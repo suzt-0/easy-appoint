@@ -51,13 +51,18 @@ const practitionerNavItems: NavItem[] = [
         icon: LayoutGrid,
     },
     {
-        title: 'My Schedule',
-        href: '/practitioner/schedule',
+        title: "Today's Schedule",
+        href: '/user/practitioner/schedule',
+        icon: Clock10,
+    },
+    {
+        title: 'My Schedules',
+        href: '/user/practitioner/schedules',
         icon: Clock1,
     },
     {
-        title: 'My appointments',
-        href: '/practitioner/appointment',
+        title: 'My Appointments',
+        href: '/user/practitioner/appointments',
         icon: FileClock,
     },
 ];
@@ -68,13 +73,13 @@ const patientNavItems: NavItem[] = [
         icon: LayoutGrid,
     },
     {
-        title: 'My Appointments',
-        href: '#',
+        title: 'Book Appointment',
+        href: '/user/patient/appointment/select-schedule',
         icon: FileClock,
     },
     {
-        title: 'My Reports',
-        href: '#',
+        title: 'My Appointments',
+        href: '/user/patient/appointments',
         icon: Folder,
     },
 ];
@@ -103,7 +108,7 @@ const frontDeskNavItems: NavItem[] = [
     },
     {
         title: 'Practitioners',
-        href: 'admin/practitioners',
+        href: '/admin/practitioners',
         icon: Folder,
     },
 ];

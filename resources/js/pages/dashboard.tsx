@@ -59,13 +59,13 @@ const patientDashboardCards: DashboardCard[] = [
         title: 'Book Appointment',
         description: 'Schedule a new appointment with healthcare providers',
         content: '📅 New Booking',
-        href: '/appointment/select-schedule',
+        href: '/user/patient/appointment/select-schedule',
     },
     {
         title: 'My Appointments',
         description: 'View and manage your upcoming appointments',
         content: '🗓️ My Schedule',
-        href: '/patient/appointments',
+        href: '/user/patient/appointments',
     },
     // {
     //     title: 'Reports',
@@ -117,7 +117,7 @@ const receptionistDashboardCards: DashboardCard[] = [
         title: 'Practitioners',
         description: 'List of practitioners',
         content: '👨‍⚕️ Practitioners',
-        href: 'admin/practitioners',
+        href: '/admin/practitioners',
     },
     
     // {
@@ -155,16 +155,22 @@ const receptionistDashboardCards: DashboardCard[] = [
 // Practitioner dashboard cards
 const practitionerDashboardCards: DashboardCard[] = [
     {
-        title: 'My Schedule',
-        description: 'View and manage your appointment schedule',
-        content: '📅 Schedule',
-        href: '/practitioner/schedule',
+        title: "Today's Schedule",
+        description: 'View today\'s appointments and schedule details',
+        content: '📋 Today',
+        href: '/user/practitioner/schedule',
+    },
+    {
+        title: 'My Schedules',
+        description: 'View and manage your appointment schedules',
+        content: '📅 Schedules',
+        href: '/user/practitioner/schedules',
     },
     {
         title: 'Patient Appointments',
         description: 'View and manage patient appointments',
         content: '🗓️ Appointments',
-        href: '/practitioner/appointments',
+        href: '/user/practitioner/appointments',
     },
     // {
     //     title: 'Patient Records',
