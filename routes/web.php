@@ -5,7 +5,10 @@ use App\Http\Controllers\Appointment\AdminAppointmentController;
 use App\Http\Controllers\Appointment\NewAppointmentController;
 use App\Http\Controllers\Appointment\PatientAppointmentController;
 use App\Http\Controllers\Appointment\PractitionerAppointmentController;
+use App\Http\Controllers\Appointment\UpdateAppointmentController;
+use App\Http\Controllers\Appointment\CancelAppointmentController;
 use App\Http\Controllers\Practitioner\PractitionerController;
+use App\Http\Controllers\Schedule\PractitionerScheduleController;
 use App\Http\Controllers\Schedule\ScheduleController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -57,15 +60,11 @@ use App\Http\Controllers\Schedule\AdminScheduleController ;
         
         Route::get('dashboard/patient/manage', function () {
             return Inertia::render('Patient/patient-manage');
-    })->name('dashboard.manage.patient');
+        })->name('dashboard.manage.patient');
+        
+        
+    });
     
-    
-    //for appointment booking also used by patients so here 
-    Route::get('/admin/appointment/create', [AdminAppointmentController::class, 'create'])->name('admin.appointment.create'); //to show appointment creation form
-    Route::post('/admin/appointment/store', [AdminAppointmentController::class, 'store'])->name('admin.appointment.store'); //to store appointment data
-    
-});
-
 // ----------------------------admin only routes----------------------------------------------------------- 
 
 Route::middleware(['isAdmin','auth'])->group(function () {
@@ -108,7 +107,7 @@ Route::middleware(['isStaff'])->group(function () {
 
 
 // ----------------------------admin or frontdesk routes----------------------------------------------------------- 
-Route::middleware(['adminOrFrontdesk', 'auth', 'verified'])->group(function () {
+Route::middleware(['adminOrFrontdesk', 'auth'])->group(function () {
     
     //practitioner data routes 
     Route::get('admin/practitioners', [PractitionerController::class, 'index'])->name('practitioner.index');
@@ -127,11 +126,16 @@ Route::middleware(['adminOrFrontdesk', 'auth', 'verified'])->group(function () {
     //routes for appointment management
     Route::get('/admin/appointment/manage', [AdminAppointmentController::class, 'dashboard'])->name('admin.appointment.dashboard'); //to view all appointments
     Route::get('/admin/appointments', [AdminAppointmentController::class, 'index'])->name('admin.appointment.index'); //to view all appointments
-    Route::get('/appointment/select-schedule', [AdminAppointmentController::class, 'selectSchedule'])->name('admin.appointment.schedules'); //to view appointments for a specific practitioner
     Route::get('/admin/appointment/{appointment}', [AdminAppointmentController::class, 'show'])->name('admin.appointment.show'); //to view appointment details
     Route::get('/admin/appointment/edit/{appointment}', [AdminAppointmentController::class, 'edit'])->name('admin.appointment.edit'); //to show appointment edit form
-    Route::put('/admin/appointment/update/{appointment}', [AdminAppointmentController::class, 'update'])->name('admin.appointment.update'); //to update appointment data
+    Route::put('/admin/appointment/update/{appointment}', [UpdateAppointmentController::class, 'update'])->name('admin.appointment.update'); //to update appointment data
+    Route::put('/admin/appointment/cancel/{appointment}', [CancelAppointmentController::class, 'cancel'])->name('admin.appointment.cancel'); //to update appointment data
     Route::delete('/admin/appointment/delete/{appointment}', [AdminAppointmentController::class, 'destroy'])->name('admin.appointment.destroy'); //to delete appointment
+    //for appointment booking also used by patients so here 
+    Route::get('/admin/appointment/create', [AdminAppointmentController::class, 'create'])->name('admin.appointment.create'); //to show appointment creation form
+    Route::post('/admin/appointment/store', [AdminAppointmentController::class, 'store'])->name('admin.appointment.store'); //to store appointment data
+    
+    Route::get('/appointment/select-schedule', [AdminAppointmentController::class, 'selectSchedule'])->name('admin.appointment.schedules'); //to view appointments for a specific practitioner
     
     //routes for patient data management
     // Route::get('/patient/dashboard', [PatientController::class, 'dashboard'])->name('patient.dashboard'); //for patient dashboard
@@ -148,21 +152,35 @@ Route::middleware(['adminOrFrontdesk', 'auth', 'verified'])->group(function () {
 
 
 // ----------------------------patient routes ----------------------------------------------------------- 
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['isPatient'])->group(function () {
     
     //appoientment management routes for patient(works but still requires routes for update and cancel)
-    Route::get('/patient/appointments',[PatientAppointmentController::class, 'index'])->name('patient.appointment.index'); //to view all appointments for the patient
-    Route::get('/patient/appointments/{appointment}', [PatientAppointmentController::class, 'show'])->name('patient.appointment.show'); //to view appointment details
-    
+    Route::get('/user/patient/appointments',[PatientAppointmentController::class, 'index'])->name('patient.appointment.index'); //to view all appointments for the patient
+    Route::get('/user/patient/appointments/{appointment}', [PatientAppointmentController::class, 'show'])->name('patient.appointment.show'); //to view appointment details
+    Route::put('/user/patient/appointment/cancel/{appointment}', [CancelAppointmentController::class, 'cancel'])->name('patient.appointment.cancel'); 
+    Route::get('/user/patient/appointment/reschedule/{appointment}', [PatientAppointmentController::class, 'edit'])->name('patient.appointment.reschedule.show'); //to show appointment reschedule form
+    Route::put('/user/patient/appointment/update/{appointment}', [PatientAppointmentController::class, 'update'])->name('patient.appointment.reschedule.update'); //to update appointment data
+
+    //Routes to create new appointment for patient after authentication
+    //to select schedule for appointment
+    Route::get('/user/patient/appointment/select-schedule', [PatientAppointmentController::class, 'selectSchedule'])->name('patient.appointment.schedules'); //to view appointments for a specific practitioner
+    //to show appointment booking form and store appointment data
+    Route::get('/user/patient/appointments/authenticated/create', [PatientAppointmentController::class, 'create'])->name('patient.appointment.create'); //to show appointment booking form
+    Route::post('/user/patient/appointments/authenticated/store', [PatientAppointmentController::class, 'store'])->name('patient.appointment.store'); //to store appointment data
     
 });
 
 // ----------------------------practitioner routes----------------------------------------------------------- 
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['isPractitioner'])->group(function () {
 
-    //appointment routes (doesnot work at the moment)
+    //appointment routes (works!!!)
     Route::get('user/practitioner/appointments', [PractitionerAppointmentController::class, 'index'])->name('practitioner.appointments.index'); //to view all appointments for the practitioner
     Route::get('user/practitioner/appointment/{appointment}', [PractitionerAppointmentController::class, 'show'])->name('practitioner.appointments.show'); //to view appointment details
+    Route::put('user/practitioner/appointment/cancel/{appointment}', [CancelAppointmentController::class, 'cancel'])->name('practitioner.appointment.cancel'); //to cancel appointment
+
+    //schedule routes
+    Route::get('/user/practitioner/schedules', [PractitionerScheduleController::class, 'index'])->name('practitioner.schedule.index'); //to view all schedules of a particular practitioner 
+    Route::get('/user/practitioner/schedule', [PractitionerScheduleController::class, 'show'])->name('practitioner.schedule.show'); //to view a specific schedule of a practitioner
         
         
     });
