@@ -25,18 +25,47 @@ class AppointmentParticipants extends Model
     }
 
     /**
-     * Participant may be a patient (when actor_type is 'patient').
+     * Get the participant's patient (only if actor_type is 'patient').
      */
     public function patient()
     {
-        return $this->belongsTo(Patient::class, 'actor_id')->where('actor_type', 'patient');
+        return $this->belongsTo(Patient::class, 'actor_id');
     }
 
     /**
-     * Participant may be a practitioner (when actor_type is 'practitioner').
+     * Get the participant's practitioner (only if actor_type is 'practitioner').
      */
     public function practitioner()
     {
-        return $this->belongsTo(Practitioner::class, 'actor_id')->where('actor_type', 'practitioner');
+        return $this->belongsTo(Practitioner::class, 'actor_id');
+    }
+
+    /**
+     * Get the actor (patient or practitioner) based on actor_type.
+     */
+    public function getActorAttribute()
+    {
+        if ($this->actor_type === 'patient') {
+            return $this->patient;
+        } elseif ($this->actor_type === 'practitioner') {
+            return $this->practitioner;
+        }
+        return null;
+    }
+
+    /**
+     * Check if this participant is a patient.
+     */
+    public function isPatient(): bool
+    {
+        return $this->actor_type === 'patient';
+    }
+
+    /**
+     * Check if this participant is a practitioner.
+     */
+    public function isPractitioner(): bool
+    {
+        return $this->actor_type === 'practitioner';
     }
 }
