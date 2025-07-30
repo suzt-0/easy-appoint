@@ -8,7 +8,6 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
 type RegisterForm = {
-    name: string;
     email: string;
     family_name: string;
     given_name: string;
@@ -18,7 +17,6 @@ type RegisterForm = {
 };
 
 export default function Register() {    const { data, setData, post, processing, errors, reset } = useForm<Required<RegisterForm>>({
-        name: '',
         email: '',
         family_name: '',
         given_name: '',
@@ -65,36 +63,18 @@ export default function Register() {    const { data, setData, post, processing,
                                 <p className="text-[#64748b] dark:text-[#cbd5e1]">Enter your details below to create your patient account</p>
                             </div>{/* Form */}
                             <form className="flex flex-col gap-6" onSubmit={submit}>
-                                <div className="grid gap-6">
-                                    {/* Patient Information */}
+                                <div className="grid gap-6">                                    {/* Patient Information */}
                                     <div className="space-y-4">
                                         <h3 className="text-lg font-semibold text-[#1e293b] dark:text-[#f1f5f9] border-b border-[#e2e8f0] dark:border-[#475569] pb-2">Patient Information</h3>
                                         
-                                        <div className="grid gap-2">
-                                            <Label htmlFor="name" className="text-[#1e293b] dark:text-[#f1f5f9] font-medium">Full Name</Label>
-                                            <Input
-                                                id="name"
-                                                type="text"
-                                                required
-                                                autoFocus
-                                                tabIndex={1}
-                                                autoComplete="name"
-                                                value={data.name}
-                                                onChange={(e) => setData('name', e.target.value)}
-                                                disabled={processing}
-                                                placeholder="John Doe"
-                                                className="border-[#e2e8f0] dark:border-[#475569] dark:bg-[#334155] dark:text-[#f1f5f9] focus:border-[#3b82f6] focus:ring-[#3b82f6]"
-                                            />
-                                            <InputError message={errors.name} className="mt-2" />
-                                        </div>
-
                                         <div className="grid gap-2">
                                             <Label htmlFor="email" className="text-[#1e293b] dark:text-[#f1f5f9] font-medium">Email address</Label>
                                             <Input
                                                 id="email"
                                                 type="email"
                                                 required
-                                                tabIndex={2}
+                                                autoFocus
+                                                tabIndex={1}
                                                 autoComplete="email"
                                                 value={data.email}
                                                 onChange={(e) => setData('email', e.target.value)}
@@ -103,16 +83,14 @@ export default function Register() {    const { data, setData, post, processing,
                                                 className="border-[#e2e8f0] dark:border-[#475569] dark:bg-[#334155] dark:text-[#f1f5f9] focus:border-[#3b82f6] focus:ring-[#3b82f6]"
                                             />
                                             <InputError message={errors.email} />
-                                        </div>
-
-                                        <div className="grid grid-cols-2 gap-4">
+                                        </div>                                        <div className="grid grid-cols-2 gap-4">
                                             <div className="grid gap-2">
                                                 <Label htmlFor="given_name" className="text-[#1e293b] dark:text-[#f1f5f9] font-medium">First Name</Label>
                                                 <Input
                                                     id="given_name"
                                                     type="text"
                                                     required
-                                                    tabIndex={3}
+                                                    tabIndex={2}
                                                     value={data.given_name}
                                                     onChange={(e) => setData('given_name', e.target.value)}
                                                     disabled={processing}
@@ -128,7 +106,7 @@ export default function Register() {    const { data, setData, post, processing,
                                                     id="family_name"
                                                     type="text"
                                                     required
-                                                    tabIndex={4}
+                                                    tabIndex={3}
                                                     value={data.family_name}
                                                     onChange={(e) => setData('family_name', e.target.value)}
                                                     disabled={processing}
@@ -145,7 +123,7 @@ export default function Register() {    const { data, setData, post, processing,
                                                 <select
                                                     id="gender"
                                                     required
-                                                    tabIndex={5}
+                                                    tabIndex={4}
                                                     value={data.gender}
                                                     onChange={(e) => setData('gender', e.target.value)}
                                                     disabled={processing}
@@ -165,7 +143,7 @@ export default function Register() {    const { data, setData, post, processing,
                                                     id="birth_date"
                                                     type="date"
                                                     required
-                                                    tabIndex={6}
+                                                    tabIndex={5}
                                                     value={data.birth_date}
                                                     onChange={(e) => setData('birth_date', e.target.value)}
                                                     disabled={processing}
@@ -180,7 +158,7 @@ export default function Register() {    const { data, setData, post, processing,
                                             <Input
                                                 id="phone"
                                                 type="tel"
-                                                tabIndex={7}
+                                                tabIndex={6}
                                                 value={data.phone}
                                                 onChange={(e) => setData('phone', e.target.value)}
                                                 disabled={processing}
@@ -189,12 +167,10 @@ export default function Register() {    const { data, setData, post, processing,
                                             />
                                             <InputError message={errors.phone} />
                                         </div>
-                                    </div>
-
-                                    <Button 
+                                    </div>                                    <Button 
                                         type="submit" 
                                         className="mt-2 w-full bg-gradient-to-r from-[#3b82f6] to-[#1d4ed8] hover:from-[#2563eb] hover:to-[#1e40af] text-white shadow-lg transition-all duration-200 transform hover:scale-105" 
-                                        tabIndex={8} 
+                                        tabIndex={7} 
                                         disabled={processing}
                                     >
                                         {processing && <LoaderCircle className="h-4 w-4 animate-spin mr-2" />}
@@ -206,7 +182,7 @@ export default function Register() {    const { data, setData, post, processing,
                                     Already have an account?{' '}
                                     <Link 
                                         href={route('patient.user.login')} 
-                                        tabIndex={9}
+                                        tabIndex={8}
                                         className="font-medium text-[#3b82f6] hover:text-[#2563eb] dark:text-[#60a5fa] dark:hover:text-[#3b82f6] transition-colors"
                                     >
                                         Log in
