@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Appointment;
 use App\Http\Controllers\Controller;
+use App\Mail\AppointmentConfirmationMail;
 use App\Models\Appointment;
 use App\Models\Patient;
 use App\Models\Practitioner;
@@ -9,6 +10,7 @@ use App\Models\Schedule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class AdminAppointmentController extends Controller
 {
@@ -37,7 +39,6 @@ class AdminAppointmentController extends Controller
            ])
         ->get(); 
 
-        // dd($appointments);
 
         return inertia(
             'Appointment/appointment-index',
@@ -175,6 +176,38 @@ class AdminAppointmentController extends Controller
 
             // Commit the transaction
             DB::commit();
+                        // Send appointment confirmation email
+            try {
+                // Get the practitioner details
+                $practitioner = Practitioner::findOrFail($practitioner_id);
+                
+                // Get patient email from telecoms
+                $patientEmail = $patient->telecoms()->where('system', 'email')->first();
+
+                //get schedule details
+                $schedule = Schedule::findOrFail($validatedData['schedule_id']);
+                
+                if ($patientEmail) {
+                    Mail::to($patientEmail->value)->send(
+                        new AppointmentConfirmationMail($appointment, $patient,$schedule)
+                    );
+                    
+                    Log::info('Appointment confirmation email sent successfully', [
+                        'appointment_id' => $appointment->id,
+                        'patient_email' => $patientEmail->value
+                    ]);
+                }
+            } catch (\Exception $emailException) {
+                // Log the email error but don't fail the appointment creation
+                Log::error('Failed to send appointment confirmation email', [
+                    'appointment_id' => $appointment->id,
+                    'error' => $emailException->getMessage()
+                ]);
+                
+                // Optionally, you can add a flash message to inform the user
+                // that the appointment was created but email failed
+                session()->flash('email_warning', 'Appointment created successfully, but confirmation email could not be sent.');
+            }
         } catch (\Exception $e) {
 
             DB::rollBack();
@@ -252,10 +285,39 @@ class AdminAppointmentController extends Controller
             'appointment_date' => 'required|date|after_or_equal:today', // Ensure the appointment date is today or in the future
         ]);
 
-        // Update the appointment with the validated data
-        $appointment->update($validatedData);
+        try {
+            // Start transaction
+            DB::beginTransaction();
 
-        return redirect()->route('admin.appointment.show', $appointment->id)->with('success', 'Appointment updated successfully.');
+            // Check if schedule is being changed
+            if (isset($validatedData['schedule_id']) && $validatedData['schedule_id'] != $appointment->schedule_id) {
+                // Get the new schedule and its practitioner
+                $newSchedule = Schedule::findOrFail($validatedData['schedule_id']);
+                $newPractitionerId = $newSchedule->practitioner_id;
+                
+                // Update the practitioner participant
+                $appointment->participants()
+                    ->where('actor_type', 'practitioner')
+                    ->update([
+                        'actor_id' => $newPractitionerId,
+                        'status' => 'accepted' // Reset status for new practitioner
+                    ]);
+            }
+
+            // Update the appointment with the validated data
+            $appointment->update($validatedData);
+
+            // Commit the transaction
+            DB::commit();
+
+            return redirect()->route('admin.appointment.show', $appointment->id)->with('success', 'Appointment updated successfully.');
+            
+        } catch (\Exception $e) {
+            // Rollback transaction on error
+            DB::rollBack();
+            Log::error('Failed to update appointment: ' . $e->getMessage());
+            return back()->withErrors(['error' => 'Failed to update appointment: ' . $e->getMessage()]);
+        }
     }
 
     /**
@@ -264,11 +326,17 @@ class AdminAppointmentController extends Controller
     public function destroy(Appointment $appointment)
     {
         try {
-            // Mark appointment as inactive instead of deleting
-            $appointment->update(['is_active' => false]);
+            DB::beginTransaction();
             
-            return redirect()->route('admin.appointment.index')->with('success', 'Appointment deleted successfully.');
+            // Delete the appointment record - participants and notes will be cascade deleted automatically
+            $appointment->delete();
+            
+            DB::commit();
+            
+            return redirect()->route('admin.appointment.index')->with('success', 'Appointment and all related records deleted successfully.');
         } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Failed to delete appointment: ' . $e->getMessage());
             return back()->withErrors(['error' => 'Failed to delete appointment: ' . $e->getMessage()]);
         }
     }
