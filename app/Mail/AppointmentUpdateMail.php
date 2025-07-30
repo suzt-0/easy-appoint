@@ -3,13 +3,8 @@
 namespace App\Mail;
 
 use App\Models\Appointment;
-use App\Models\Patient;
-use App\Models\Practitioner;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
-use Illuminate\Mail\Mailables\Content;
-use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
 class AppointmentUpdateMail extends Mailable
@@ -17,54 +12,56 @@ class AppointmentUpdateMail extends Mailable
     use Queueable, SerializesModels;
 
     public $appointment;
-    public $patient;
-    public $practitioner;
+    public $patientName;
+    public $practitionerName;
+    public $appointmentDate;
+    public $appointmentStatus;
     public $changes;
 
     /**
      * Create a new message instance.
      */
-    public function __construct(Appointment $appointment, Patient $patient, Practitioner $practitioner, array $changes = [])
+    public function __construct(Appointment $appointment, $changes = [])
     {
         $this->appointment = $appointment;
-        $this->patient = $patient;
-        $this->practitioner = $practitioner;
         $this->changes = $changes;
+        
+        // Get patient name from participants
+        $patient = $appointment->participants()
+            ->where('actor_type', 'patient')
+            ->with('patient')
+            ->first();
+        $this->patientName = $patient && $patient->patient 
+            ? $patient->patient->given_name . ' ' . $patient->patient->family_name 
+            : 'Patient';
+
+        // Get practitioner name from participants
+        $practitioner = $appointment->participants()
+            ->where('actor_type', 'practitioner')
+            ->with('practitioner')
+            ->first();
+        $this->practitionerName = $practitioner && $practitioner->practitioner 
+            ? $practitioner->practitioner->given_name . ' ' . $practitioner->practitioner->family_name 
+            : 'Doctor';
+
+        $this->appointmentDate = $appointment->appointment_date;
+        $this->appointmentStatus = $appointment->status;
     }
 
     /**
-     * Get the message envelope.
+     * Build the message.
      */
-    public function envelope(): Envelope
+    public function build()
     {
-        return new Envelope(
-            subject: 'Appointment Updated - ' . config('app.name', 'EasyAppoint'),
-        );
-    }
-
-    /**
-     * Get the message content definition.
-     */
-    public function content(): Content
-    {
-        return new Content(
-            view: 'emails.appointment-update',
-            with: [
-                'appointment' => $this->appointment,
-                'patient' => $this->patient,
-                'practitioner' => $this->practitioner,
-                'changes' => $this->changes,
-            ]
-        );
-    }
-
-    /**
-     * Get the attachments for the message.
-     *
-     * @return array<int, \Illuminate\Mail\Mailables\Attachment>
-     */
-    public function attachments(): array
-    {
-        return [];
+        return $this->subject('Appointment Updated - ' . config('app.name', 'EasyAppoint'))
+                    ->view('emails.appointment-update')
+                    ->with([
+                        'patientName' => $this->patientName,
+                        'practitionerName' => $this->practitionerName,
+                        'appointmentDate' => $this->appointmentDate,
+                        'appointmentStatus' => $this->appointmentStatus,
+                        'changes' => $this->changes,
+                        'appointment' => $this->appointment,
+                    ]);
     }
 }
