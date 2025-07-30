@@ -27,8 +27,7 @@ class PatientUserController extends Controller
         // dd($request->all());
         try{
             $validatedData = $request->validate([
-                // User data
-                'name' => 'required|string|max:255',
+                // User data (email only, name will be derived from given_name)
                 'email' => 'required|email|unique:users,email',
                 
                 // Patient data
@@ -41,11 +40,11 @@ class PatientUserController extends Controller
                 'phone' => 'nullable|string|max:20',
             ]);
             
-            // Create the patient user
+            // Create the patient user (use given_name as the user's name)
             $user = User::create([
-                'name' => $validatedData['name'],
+                'name' => $validatedData['given_name'],
                 'email' => $validatedData['email'],
-                'password' => bcrypt("Password".$validatedData['name'].random_int(5,10)),
+                'password' => bcrypt("Password".$validatedData['given_name'].random_int(5,10)),
                 'active' => true,
                 'role' => 'patient', // Set the role to 'patient'
                 'remember_token' =>  (string)random_int(10,10),
