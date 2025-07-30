@@ -132,7 +132,7 @@ Route::middleware(['adminOrFrontdesk', 'auth'])->group(function () {
     Route::put('/admin/appointment/cancel/{appointment}', [CancelAppointmentController::class, 'cancel'])->name('admin.appointment.cancel'); //to update appointment data
     Route::delete('/admin/appointment/delete/{appointment}', [AdminAppointmentController::class, 'destroy'])->name('admin.appointment.destroy'); //to delete appointment
     //for appointment booking also used by patients so here 
-    Route::get('/admin/appointment/create', [AdminAppointmentController::class, 'create'])->name('admin.appointment.create'); //to show appointment creation form
+    Route::get('user/admin/appointment/create', [AdminAppointmentController::class, 'create'])->name('admin.appointment.create'); //to show appointment creation form
     Route::post('/admin/appointment/store', [AdminAppointmentController::class, 'store'])->name('admin.appointment.store'); //to store appointment data
     
     Route::get('/appointment/select-schedule', [AdminAppointmentController::class, 'selectSchedule'])->name('admin.appointment.schedules'); //to view appointments for a specific practitioner
