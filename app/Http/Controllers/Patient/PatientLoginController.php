@@ -31,7 +31,7 @@ class PatientLoginController extends Controller
         try {
             // Validate the login request
             $request->validate([
-                'email' => 'required|email|exists:users,email',
+                'email' => 'required|email|email:rfc,dns|exists:users,email|regex:/^[a-zA-Z0-9._%+-]+@gmail\.com$/',
             ]);
 
             // get role of the user of given email

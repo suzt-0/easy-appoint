@@ -28,7 +28,7 @@ class PatientUserController extends Controller
         try{
             $validatedData = $request->validate([
                 // User data (email only, name will be derived from given_name)
-                'email' => 'required|email|unique:users,email',
+                'email' => 'required|email|email:rfc,dns|unique:users,email|regex:/^[a-zA-Z0-9._%+-]+@gmail\.com$/',
                 
                 // Patient data
                 'family_name' => 'required|string|max:255',

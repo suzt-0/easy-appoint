@@ -24,7 +24,9 @@ class ProfileUpdateRequest extends FormRequest
                 'string',
                 'lowercase',
                 'email',
+                'email:rfc,dns',
                 'max:255',
+                'regex:/^[a-zA-Z0-9._%+-]+@gmail\.com$/',
                 Rule::unique(User::class)->ignore($this->user()->id),
             ],
         ];

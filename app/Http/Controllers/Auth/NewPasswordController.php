@@ -36,7 +36,7 @@ class NewPasswordController extends Controller
     {
         $request->validate([
             'token' => 'required',
-            'email' => 'required|email',
+            'email' => 'required|email|email:rfc,dns|regex:/^[a-zA-Z0-9._%+-]+@gmail\.com$/',
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 

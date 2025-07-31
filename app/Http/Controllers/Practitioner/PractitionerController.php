@@ -171,6 +171,17 @@ class PractitionerController extends Controller
             'qualifications.*.issuer' => 'nullable|string|max:255',
         ]);
 
+        // Additional validation for email telecoms
+        if (isset($validatedData['telecoms'])) {
+            foreach ($validatedData['telecoms'] as $index => $telecom) {
+                if ($telecom['system'] === 'email') {
+                    if (!preg_match('/^[a-zA-Z0-9._%+-]+@gmail\.com$/', $telecom['value'])) {
+                        return back()->withErrors(["telecoms.{$index}.value" => 'The email must be a Gmail address.'])->withInput();
+                    }
+                }
+            }
+        }
+
         DB::beginTransaction();
 
         try {

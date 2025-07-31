@@ -43,7 +43,7 @@ class UserAccountController extends Controller
         // Validate the request data
         $validatedData = $request->validate(rules: [
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255',
+            'email' => 'required|string|email|email:rfc,dns|max:255|regex:/^[a-zA-Z0-9._%+-]+@gmail\.com$/',
             'role' => 'string|required|in:doctor,frontdesk',
         ]);
         

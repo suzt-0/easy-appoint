@@ -29,7 +29,7 @@ class PasswordResetLinkController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'email' => 'required|email',
+            'email' => 'required|email|email:rfc,dns|regex:/^[a-zA-Z0-9._%+-]+@gmail\.com$/',
         ]);
 
         Password::sendResetLink(

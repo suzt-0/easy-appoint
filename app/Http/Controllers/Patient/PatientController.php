@@ -65,7 +65,7 @@ class PatientController extends Controller
             'birth_date' => 'nullable|date',
             'active' => 'boolean',
             // patient_telecom fields
-            'email' => 'required|email|max:255',
+            'email' => 'required|email|email:rfc,dns|max:255|regex:/^[a-zA-Z0-9._%+-]+@gmail\.com$/',
             'phone' => 'required|string|max:15',
             // patient_contact fields (emergency contact)
             'emergency_name' => 'nullable|string|max:255',
@@ -156,7 +156,7 @@ class PatientController extends Controller
             'birth_date' => 'nullable|date',
             'active' => 'boolean',
             // patient_telecom fields
-            'email' => 'required|email|max:255',
+            'email' => 'required|email|email:rfc,dns|max:255|regex:/^[a-zA-Z0-9._%+-]+@gmail\.com$/',
             'phone' => 'required|string|max:15',
             // patient_contact fields (emergency contact)
             'emergency_name' => 'nullable|string|max:255',

@@ -88,7 +88,7 @@ class AdminAppointmentController extends Controller
             'birth_date' => 'nullable|date',
             'active' => 'boolean',
             // patient_telecom fields
-            'email' => 'required|email|max:255|email:rfc,dns|regex:/^.+@gmail.com$/',
+            'email' => 'required|email|email:rfc,dns|max:255|regex:/^[a-zA-Z0-9._%+-]+@gmail\.com$/',
             'phone' => 'required|string|max:15',
             // patient_contact fields
             'name' => 'nullable|string|max:255',
