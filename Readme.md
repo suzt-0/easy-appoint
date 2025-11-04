@@ -14,7 +14,7 @@ A comprehensive healthcare appointment management system built with Laravel and 
 - [Email Configuration](#email-configuration)
 - [Database Structure](#database-structure)
 - [Frontend Components](#frontend-components)
-- [API Routes](#api-routes)
+- [Routes](#routes)
 - [Deployment](#deployment)
 - [Troubleshooting](#troubleshooting)
 - [License](#license)
@@ -260,7 +260,7 @@ MAIL_ENCRYPTION=tls
 
 ---
 
-## API Routes
+## Routes
 
 ### Authentication Routes
 ```
