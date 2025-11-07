@@ -39,7 +39,7 @@
 
 ----Slot---------------------------------------------------------
 
-
+    ***********removed due to complexity****************
     -> Slot Model
         -> update fillable `add description field`
         -> remove relatioship between practitioner
@@ -72,10 +72,11 @@
 
     ->Appointment Model 
         -> add a relatioship between appointment and slots (one to one ) 
-        [each appointment belongs to one slot]
+        [each appointment belongs to one slot]**removed**
+        -> add a relationship between appointment and schedule
 
     ->Appointment Migration 
-        -> add slot_id as a foreign key
+        -> add slot_id as a foreign key **removed**
         -> fix foreign key in "appointment_participants" updated"->constrained("appointments")"
 
  
