@@ -1,0 +1,180 @@
+@startuml Easy-Appoint-Class-Diagram
+!define ENTITY class
+!define PRIMARY_KEY <b><color:red>
+!define FOREIGN_KEY <color:blue>
+
+title Easy Appoint - Class Diagram
+
+ENTITY User {
+  PRIMARY_KEY +id : bigint
+  +name : string
+  +email : string (unique)
+  +email_verified_at : timestamp
+  +role : enum('admin', 'doctor', 'frontdesk', 'patient')
+  +password : string
+  +remember_token : string
+  +created_at : timestamp
+  +updated_at : timestamp
+}
+
+ENTITY Patient {
+  PRIMARY_KEY +id : bigint
+  +family_name : string
+  +given_name : string
+  +gender : enum('male', 'female', 'other', 'unknown')
+  +birth_date : date
+  +active : boolean
+  +created_at : timestamp
+  +updated_at : timestamp
+}
+
+ENTITY Practitioner {
+  PRIMARY_KEY +id : bigint
+  FOREIGN_KEY +user_id : bigint
+  +given_name : string
+  +family_name : string
+  +gender : enum('male', 'female', 'other', 'unknown')
+  +birth_date : date
+  +active : boolean
+  +created_at : timestamp
+  +updated_at : timestamp
+}
+
+ENTITY Schedule {
+  PRIMARY_KEY +id : bigint
+  FOREIGN_KEY +practitioner_id : bigint
+  +service_category : string
+  +service_type : string
+  +specialty : string
+  +active : boolean
+  +day_of_week : string
+  +start_time : time
+  +end_time : time
+  +created_at : timestamp
+  +updated_at : timestamp
+}
+
+ENTITY Appointment {
+  PRIMARY_KEY +id : bigint
+  FOREIGN_KEY +schedule_id : bigint
+  +status : enum('proposed', 'pending', 'booked', 'arrived', 'fulfilled', 'cancelled', 'noshow')
+  +appointment_date : date
+  +description : text
+  +created_at : timestamp
+  +updated_at : timestamp
+}
+
+ENTITY AppointmentParticipant {
+  PRIMARY_KEY +id : bigint
+  FOREIGN_KEY +appointment_id : bigint
+  +actor_type : string
+  +actor_id : bigint
+  +status : enum('accepted', 'declined', 'tentative', 'needs-action')
+  +created_at : timestamp
+  +updated_at : timestamp
+}
+
+ENTITY AppointmentNote {
+  PRIMARY_KEY +id : bigint
+  FOREIGN_KEY +appointment_id : bigint
+  +text : text
+  +created_at : timestamp
+  +updated_at : timestamp
+}
+
+ENTITY PatientContact {
+  PRIMARY_KEY +id : bigint
+  FOREIGN_KEY +patient_id : bigint
+  +name : string
+  +relationship : string
+  +telecom : string
+  +address : text
+  +created_at : timestamp
+  +updated_at : timestamp
+}
+
+ENTITY PatientTelecom {
+  PRIMARY_KEY +id : bigint
+  FOREIGN_KEY +patient_id : bigint
+  +system : enum('phone', 'email', 'fax', 'pager', 'url', 'sms', 'other')
+  +value : string
+  +use : enum('home', 'work', 'temp', 'old', 'mobile')
+  +created_at : timestamp
+  +updated_at : timestamp
+}
+
+ENTITY PractitionerQualification {
+  PRIMARY_KEY +id : bigint
+  FOREIGN_KEY +practitioner_id : bigint
+  +code : string
+  +issuer : string
+  +period_start : date
+  +period_end : date
+  +created_at : timestamp
+  +updated_at : timestamp
+}
+
+ENTITY PractitionerTelecom {
+  PRIMARY_KEY +id : bigint
+  FOREIGN_KEY +practitioner_id : bigint
+  +system : enum('phone', 'email', 'fax', 'pager', 'url', 'sms', 'other')
+  +value : string
+  +use : enum('home', 'work', 'temp', 'old', 'mobile')
+  +created_at : timestamp
+  +updated_at : timestamp
+}
+
+ENTITY Notification {
+  PRIMARY_KEY +id : bigint
+  +recipient_type : string
+  +recipient_id : bigint
+  +type : string
+  +message : text
+  +delivery_method : string
+  +status : string
+  +scheduled_at : datetime
+  +sent_at : datetime
+  +created_at : timestamp
+  +updated_at : timestamp
+}
+
+ENTITY Report {
+  PRIMARY_KEY +id : bigint
+  FOREIGN_KEY +patient_id : bigint
+  FOREIGN_KEY +appointment_id : bigint
+  +title : string
+  +content : text
+  +file_path : string
+  +received_at : timestamp
+  +created_at : timestamp
+  +updated_at : timestamp
+}
+
+ENTITY UserPatient {
+  PRIMARY_KEY +id : bigint
+  FOREIGN_KEY +user_id : bigint
+  FOREIGN_KEY +patient_id : bigint
+  +created_at : timestamp
+  +updated_at : timestamp
+}
+
+' Relationships
+User ||--|| Practitioner : "has one"
+Practitioner ||--o{ Schedule : "has many"
+Schedule ||--o{ Appointment : "has many"
+Appointment ||--o{ AppointmentParticipant : "has many"
+Appointment ||--o{ AppointmentNote : "has many"
+Patient ||--o{ PatientContact : "has many"
+Patient ||--o{ PatientTelecom : "has many"
+Patient ||--o{ Report : "has many"
+Practitioner ||--o{ PractitionerQualification : "has many"
+Practitioner ||--o{ PractitionerTelecom : "has many"
+Appointment ||--o{ Report : "has many"
+User ||--o{ UserPatient : "has many"
+Patient ||--o{ UserPatient : "has many"
+
+' Polymorphic relationships
+AppointmentParticipant }o--|| Patient : "actor (polymorphic)"
+AppointmentParticipant }o--|| Practitioner : "actor (polymorphic)"
+
+@enduml
